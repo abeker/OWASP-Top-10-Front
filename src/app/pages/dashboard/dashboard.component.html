@@ -1,1 +1,35 @@
-<p>dashboard works!</p>
+<div>
+  <nz-layout>
+    <nz-header>
+      <div class="logo">
+        <label style="color: white; font-style: oblique; font-size: large;">
+            Welcome!
+        </label>
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+        <li nz-menu-item>Registration requests</li>
+      </ul>
+    </nz-header>
+    <nz-layout>
+      <nz-sider nzWidth="200px" nzTheme="light">
+        <ul nz-menu nzTheme="dark" nzMode="inline" class="sider-menu">
+          <li nz-submenu>
+            <span title>Lists</span>
+            <ul>
+              <li nz-menu-item>Brands</li>
+            </ul>
+          </li>
+
+
+          <li nz-menu-item>Create Ad</li>
+          <li nz-menu-item>Inbox</li>
+        </ul>
+      </nz-sider>
+      <nz-layout class="inner-layout">
+        <nz-content>
+          <router-outlet></router-outlet>
+        </nz-content>
+      </nz-layout>
+    </nz-layout>
+ </nz-layout>
+</div>

@@ -13,6 +13,8 @@ import { NgZorroAntdModule, NzFormModule, NzIconModule } from 'ng-zorro-antd';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegistrationComponent } from './auth/registration/registration.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 registerLocaleData(en);
@@ -25,6 +27,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    RegistrationComponent,
     DashboardComponent
   ],
   imports: [
