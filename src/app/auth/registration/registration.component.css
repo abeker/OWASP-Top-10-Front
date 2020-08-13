@@ -1,0 +1,23 @@
+[nz-form] {
+  max-width: 600px;
+}
+
+button {
+  margin-left: 8px;
+}
+
+.main-div {
+  padding-left: 20%;
+  padding-top: 2%;
+  background-image: url('https://www.icmcapital.com/assets/registration/images/bg/0.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+.main-div h1 {
+  margin-left: 17%;
+  margin-bottom: 2%;
+  color: white;
+}

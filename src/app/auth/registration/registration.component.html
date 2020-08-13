@@ -1,1 +1,126 @@
-<p>registration works!</p>
+<div class="main-div">
+  <h1>Registration form</h1>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>First Name</nz-form-label>
+      <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="firstNameErrorTpl">
+        <input nz-input id="firstName" formControlName="firstName" placeholder="First Name" #firstName/>
+        <ng-template #firstNameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 3 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your First Name!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Last Name</nz-form-label>
+    <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="lastNameErrorTpl">
+        <input nz-input id="lastName" formControlName="lastName" placeholder="Last name" #lastName/>
+        <ng-template #lastNameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 3 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Last Name!
+          </ng-container>
+        </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="email" placeholder="E-mail" type="email" />
+        <ng-template #emailErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('email')">
+            The input is not valid E-mail!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 8 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your E-mail!
+          </ng-container>
+          <ng-container *ngIf="isUsernameExist">
+            This E-Mail already exist!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please input correct password!">
+        <input nz-input type="password" formControlName="password" placeholder="password" (ngModelChange)="validateConfirmPassword()" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+        <input nz-input type="password" formControlName="confirm" placeholder="confirm your password" />
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please confirm your password!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('confirm')">
+            Password is inconsistent!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Address</nz-form-label>
+      <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="addressErrorTpl">
+        <input nz-input id="address" formControlName="address" placeholder="Address" #address/>
+        <ng-template #addressErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 4 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Address!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Social Security Number</nz-form-label>
+      <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="SSNErrorTpl">
+        <input nz-input id="ssn" formControlName="ssn" placeholder="Social security number" #ssn/>
+        <ng-template #SSNErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain exactly 13 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">
+            Must contain exactly 13 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your SSN!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Only digits are allowed!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+        <br/>
+        <br/>
+        <label style="margin-left: 4%; color: white;">
+          or back to
+        </label>
+          <b style="color: blue;"><a (click)="onLogin()"> login!</a></b>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
