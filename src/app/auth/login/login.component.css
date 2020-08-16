@@ -1,0 +1,15 @@
+.login-form{
+  margin-left: 10%;
+  max-width: 285px;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.wallpaper {
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}

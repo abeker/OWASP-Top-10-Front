@@ -1,0 +1,37 @@
+<div class="wallpaper" style="background-image: url('https://wallpaperaccess.com/full/417644.jpg');">
+  <div>
+    <header style="color: white; font-size: x-large; font-style: oblique; margin-left: 10%;">
+      <br/>
+      <b>
+        OWASP Top 10 @2020
+      </b>
+      <br/>
+      <br/>
+    </header>
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="username" placeholder="Username" />
+          </nz-input-group></nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group></nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" class="login-form-button" [disabled]="!validateForm.valid">Log In</button>
+          <br/>
+          <br/>
+        <label style="margin-left: 4%; color: white;">
+          or if you don't have an account
+        </label>
+          <b style="color: blue;"><a (click)="onRegistration()"> register!</a></b>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
