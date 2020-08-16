@@ -13,7 +13,7 @@ export class RegistrationComponent implements OnInit {
 
   validateForm: FormGroup;
   isUsernameExist: boolean = false;
-  htmlTagRegExp = '^(?!<.+?>).*$';    // izbegavanje <script> tagova
+  htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
 
   constructor(private fb: FormBuilder,
               private router: Router,
