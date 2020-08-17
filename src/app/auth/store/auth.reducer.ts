@@ -34,6 +34,11 @@ export function authReducer(state: State = initiaState, action: AuthActions.Auth
                user: user,
                authError: "Success login."
             };
+        case AuthActions.SIGNUP_FAIL:
+          return {
+             ...state,
+             authError: action.payload
+          };
         case AuthActions.LOGIN_FAIL:
           return {
             ...state,

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './../../services/auth.service';
-import { NzMessageService } from 'ng-zorro-antd';
-import * as fromApp from '../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../auth/store/auth.actions';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +17,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private authService: AuthService,
-              private message: NzMessageService,
               private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
@@ -36,21 +32,10 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    console.log(this.validateForm.value.username + ' : ' + this.validateForm.value.password);
     this.store.dispatch(new AuthActions.LoginStart({
       username: this.validateForm.value.username,
       password: this.validateForm.value.password
     }));
-
-    // this.authService.login({
-    //   username: this.validateForm.value.username,
-    //   password: this.validateForm.value.password
-    // }).subscribe(user => {
-    //    alert('ok')
-    // }, error => {
-    //   console.log(error);
-    //   this.message.error(error.error);
-    // })
   }
 
   onRegistration() {
