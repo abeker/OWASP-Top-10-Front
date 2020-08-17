@@ -1,0 +1,37 @@
+<nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed">
+  <thead>
+    <tr>
+      <th nzCustomFilter>
+        Username
+        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+          <i nz-icon nzType="search"></i>
+        </nz-filter-trigger>
+      </th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of nzTable.data">
+      <td>{{ data.username }}</td>
+      <td>{{ data.firstName }}</td>
+      <td>{{ data.lastName }}</td>
+      <td>
+        <button nz-button nzType="primary" (click)="approveRequest(data.id)" style="margin-right: 10px;" nzGhost>Approve</button>
+        <button nz-button nzType="default" (click)="denyRequest(data.id)" nzDanger>Deny</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

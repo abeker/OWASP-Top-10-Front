@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { AgentRegistrationComponent } from './pages/agent-registration/agent-registration.component';
+import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth/login' },
@@ -11,7 +13,8 @@ const routes: Routes = [
   { path: 'auth/registration', component: RegistrationComponent },
   {
     path: 'dashboard', component: DashboardComponent, children: [
-
+      { path: 'agent-registration', component: AgentRegistrationComponent },
+      { path: 'registration-requests', component: RegistrationRequestsComponent },
     ]
   }
 ];

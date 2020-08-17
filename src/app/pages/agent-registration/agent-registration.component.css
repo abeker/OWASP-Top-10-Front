@@ -1,0 +1,22 @@
+[nz-form] {
+  max-width: 600px;
+}
+
+button {
+  margin-left: 8px;
+}
+
+.main-div {
+  padding-left: 20%;
+  padding-top: 2%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+.main-div h1 {
+  margin-left: 21%;
+  margin-bottom: 5%;
+  color: white;
+}

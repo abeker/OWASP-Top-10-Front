@@ -3,15 +3,17 @@
     <nz-header>
       <div class="logo"><img class="logo-img" src="assets\img\logo.png"></div>
       <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
-        <li nz-menu-item nzSelected>nav 1</li>
-        <li nz-menu-item>nav 2</li>
-        <li nz-menu-item>nav 3</li>
-        <li nz-menu-item style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>Login</li>
+        <li *ngIf="isAdmin" nz-menu-item (click)="agentRegister()">Register Agent</li>
+        <li *ngIf="isAdmin" nz-menu-item (click)="registrationRequests()">Registration Requests</li>
+        <li nz-menu-item style="float: right;" (click)="logout()">
+          <i nz-icon nzType="user" nzTheme="outline"></i>
+          Logout
+        </li>
       </ul>
     </nz-header>
     <nz-layout>
       <nz-layout class="inner-layout">
-          <nz-content>
+          <nz-content style="background-color: rgba(255, 255, 255, 0.2);">
             <router-outlet></router-outlet>
           </nz-content>
       </nz-layout>
@@ -20,7 +22,7 @@
         <ul nz-menu nzMode="inline" class="sider-menu" nzTheme="dark">
           <li nz-submenu nzOpen nzIcon="user" nzTitle="subnav 1">
             <ul>
-              <li nz-menu-item nzSelected>option1</li>
+              <li nz-menu-item>option1</li>
               <li nz-menu-item>option4</li>
             </ul>
           </li>

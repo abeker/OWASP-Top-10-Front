@@ -10,6 +10,14 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../shared/user.model';
 import * as AuthActions from './auth.actions';
 
+export interface SignupResponseData {
+  id: string
+  username: string;
+  firstName: string;
+  lastName: string;
+  userRole: string;
+}
+
 export interface AuthResponseData {
   id: string
   token: string;
@@ -72,20 +80,22 @@ export class AuthEffects {
   authSignup = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_START),
     switchMap((authData: AuthActions.SignupStart) => {
-      return this.http.post<AuthResponseData>(
-        environment.baseUrl + 'auth/create-simple-user',
+      return this.http.post<SignupResponseData>(
+        environment.baseUrl + 'auth/simple-users',
         {
           username: authData.payload.username,
-          password: authData.payload.password,
-          rePassword: authData.payload.password,
           firstName: authData.payload.firstName,
           lastName: authData.payload.lastName,
+          password: authData.payload.password,
+          rePassword: authData.payload.password,
           ssn: authData.payload.ssn,
           address: authData.payload.address,
-          city: authData.payload.city,
-          country: authData.payload.country
         })
       .pipe(
+          map(() => {
+            this.message.success('Registration request successfully sent.');
+            return new AuthActions.SignupSuccess();
+          }),
           catchError(responseError => {
             this.message.warning(responseError.error);
             return of(new AuthActions.SignupFail(responseError.error));
@@ -94,7 +104,7 @@ export class AuthEffects {
     })
   );
 
-  @Effect({dispatch: false})
+  @Effect({ dispatch: false })
   authLoginFail = this.actions$.pipe(
     ofType(AuthActions.LOGIN_FAIL),
     tap((authFailAction: AuthActions.LoginFail) => {
@@ -115,6 +125,15 @@ export class AuthEffects {
       if(authSuccessAction.payload.redirect){
         this.router.navigate(['/']);
       }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  authRedirectSignup = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_SUCCESS),
+    tap(() => {
+      console.log('usao u signup redirect');
+      this.router.navigate(['/auth/login']);
     })
   );
 
@@ -140,7 +159,6 @@ export class AuthEffects {
           userRole: string
         } = JSON.parse(localStorage.getItem('userData'));
 
-        console.log('ucitao usera');
         if(userData !== null) {
           const loadedUser = new User(
             userData.username,
@@ -149,10 +167,8 @@ export class AuthEffects {
             new Date(userData._tokenExpirationDate),
             userData.userRole
           );
-          console.log('user == null');
 
           if(loadedUser.token){
-            console.log('ucitao token');
             const remainingDuration:number =
                 new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.authService.setLogoutTimer(remainingDuration);

@@ -22,6 +22,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from './../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
+import { AgentRegistrationComponent } from './pages/agent-registration/agent-registration.component';
+import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 
 registerLocaleData(en);
 
@@ -35,7 +37,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    DashboardComponent
+    DashboardComponent,
+    AgentRegistrationComponent,
+    RegistrationRequestsComponent
   ],
   imports: [
     BrowserModule,

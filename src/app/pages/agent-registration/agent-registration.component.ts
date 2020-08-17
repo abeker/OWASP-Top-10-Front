@@ -1,35 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, ValidationErrors, FormBuilder, Validators } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
+import { FormGroup, FormBuilder, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from './../../services/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducer';
-import * as AuthActions from '../../auth/store/auth.actions';
+import { Observable, Observer } from 'rxjs';
+import { AgentService } from './../../services/agent.service';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  selector: 'app-agent-registration',
+  templateUrl: './agent-registration.component.html',
+  styleUrls: ['./agent-registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
+export class AgentRegistrationComponent implements OnInit {
 
   validateForm: FormGroup;
   isUsernameExist: boolean = false;
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
 
   constructor(private fb: FormBuilder,
-              private router: Router,
               private userService: UserService,
-              private store: Store<fromApp.AppState>) {
+              private agentService: AgentService,
+              private message: NzMessageService) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
       password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]],
       confirm: ['', [Validators.required, this.confirmValidator, Validators.pattern(this.htmlTagRegExp)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
-      address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]],
-      ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.required, Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
+      address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]]
     });
   }
 
@@ -37,20 +36,24 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; }): void {
+  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
 
-    this.store.dispatch(new AuthActions.SignupStart({
+    this.agentService.createAgent({
       username: value.email,
-      password: value.password,
       firstName: value.firstName,
       lastName: value.lastName,
-      address: value.address,
-      ssn: value.ssn
-    }));
+      password: value.password,
+      rePassword: value.confirm,
+      address: value.address
+    }).subscribe(agentResponse => {
+      this.message.success('Agent is successfully created!');
+    }, error => {
+      this.message.error(error.error);
+    });
 
     this.resetForm(new MouseEvent('click'));
   }
@@ -94,9 +97,5 @@ export class RegistrationComponent implements OnInit {
     }
     return {};
   };
-
-  onLogin(): void {
-    this.router.navigateByUrl('auth/login');
-  }
 
 }
