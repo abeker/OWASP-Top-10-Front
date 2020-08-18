@@ -6,6 +6,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { AgentRegistrationComponent } from './pages/agent-registration/agent-registration.component';
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
+import { AdCardsComponent } from './pages/ad-cards/ad-cards.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth/login' },
@@ -15,6 +16,7 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent, children: [
       { path: 'agent-registration', component: AgentRegistrationComponent },
       { path: 'registration-requests', component: RegistrationRequestsComponent },
+      { path: 'ads', component: AdCardsComponent },
     ]
   }
 ];

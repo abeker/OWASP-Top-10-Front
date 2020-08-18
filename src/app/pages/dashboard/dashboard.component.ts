@@ -53,6 +53,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigateByUrl('dashboard/registration-requests');
   }
 
+  showAds(): void {
+    this.router.navigateByUrl('dashboard/ads');
+  }
+
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
   }
