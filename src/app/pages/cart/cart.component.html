@@ -1,0 +1,47 @@
+<div style="background: transparent;padding:30px;">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="7" *ngFor="let cart of cartContent">
+      <nz-card nzHoverable [nzCover]="coverTemplate"
+      style="border: 1px solid white; background: rgba(255, 255, 255, 0.4); padding: 2px;">
+        <h2> {{ cart.car.brand }} {{ cart.car.model }} </h2>
+        <br>
+        <h4> <u>Fuel type:</u> <i><b> {{ cart.car.fuelType }} </b></i></h4>
+        <h4> <u>Gearshift type:</u><i><b> {{ cart.car.gearshiftType }} </b></i> </h4>
+        <h4> <u>No. of gears:</u> <i><b> {{ cart.car.gearshiftNumberOfGears }} </b></i> </h4>
+        <h4> <i>Pick up address:</i> <i><b> {{ cart.ad.pickUpAddress }} </b></i> </h4>
+        <br>
+        <nz-range-picker
+          [nzShowTime]="{ nzFormat: 'HH:mm' }"
+          nzFormat="yyyy-MM-dd HH:mm"
+          [nzPlaceHolder]="['Start Time', 'End Time']"
+          ngModel
+          (ngModelChange)="onChangeDate($event, cart.ad.id)"
+          [nzDisabledDate]="disabledDate"
+        ></nz-range-picker>
+        <br>
+      </nz-card>
+      <ng-template #coverTemplate>
+          <div *ngIf="cart.ad.photos.length !== 0; else elseContent">
+            <img [src]="cart.ad.photos[0]"
+              height="250px"
+              width="100px">
+          </div>
+          <ng-template #elseContent>
+            <img src="assets\img\default_img.png"
+              height="250px"
+              width="100px">
+          </ng-template>
+      </ng-template>
+    </div>
+  </div>
+  <button
+  *ngIf="cartContent.length > 0"
+    nz-button
+    nzType="primary"
+    class="button_send_request"
+    [nzSize]="size"
+    (click)="sendRequest()">
+  <i nz-icon nzType="check" nzTheme="outline"></i>
+   {{ cartContent.length > 1 ? "Send Requests" : "Send Request" }}
+  </button>
+</div>

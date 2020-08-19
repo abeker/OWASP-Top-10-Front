@@ -1,0 +1,54 @@
+<div style="background: transparent; padding:30px;">
+  <nz-input-group class="nzInputGroupSearch" nzSearch [nzAddOnAfter]="suffixIconButton">
+    <input #searchField
+      type="text"
+      style="height: 40px;"
+      nz-input
+      placeholder="search by brand & model" />
+  </nz-input-group>
+  <ng-template #suffixIconButton>
+    <button nz-button nzType="primary"
+      style="height: 40px;"
+      nzSearch
+      (click)="search()">
+      <i nz-icon nzType="search"></i>
+    </button>
+    <button nz-button nzType="primary" nzGhost
+      style="height: 40px; border-left-color: blue;"
+      (click)="reloadSearch()">
+      <i nz-icon nzType="reload" nzTheme="outline"></i>
+    </button>
+  </ng-template>
+
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8" class="card_column_adResponse" *ngFor="let ad of adList">
+      <nz-card
+        style="width:300px;"
+        [nzCover]="coverTemplate"
+        [nzActions]="[actionAddToCart, actionDetails]">
+        <nz-card-meta
+          [nzTitle]="getTitle(ad)"
+          [nzDescription]="getDescription(ad)"
+          [nzAvatar]="avatarTemplate"></nz-card-meta>
+      </nz-card>
+      <ng-template #avatarTemplate>
+        <nz-avatar nzText="AD"></nz-avatar>
+      </ng-template>
+      <ng-template #coverTemplate>
+        <nz-carousel [nzEffect]="'fade'">
+          <div nz-carousel-content *ngFor="let image of ad.photos">
+            <img class="carousel-img" [src]=image.picByte>
+          </div>
+        </nz-carousel>
+        <img class="carousel-img" *ngIf="ad.photos.length===0" src="assets\img\default_img.png">
+      </ng-template>
+
+      <ng-template #actionAddToCart>
+        <i nz-icon nzType="plus" nzTheme="outline" (click)="addToCart(ad)"></i>
+      </ng-template>
+      <ng-template #actionDetails>
+        <i nz-icon nzType="info-circle" nzTheme="outline" (click)="info(ad.id)"></i>
+      </ng-template>
+    </div>
+  </div>
+</div>

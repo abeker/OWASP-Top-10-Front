@@ -122,7 +122,10 @@ export class AuthEffects {
     ofType(AuthActions.LOGIN_SUCCESS),
     tap((authSuccessAction: AuthActions.LoginSuccess) => {
       this.router.navigate(['dashboard']);
-      if(authSuccessAction.payload.redirect){
+      if(!authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'SIMPLE_USER') {
+        this.router.navigate(['/dashboard/ads']);
+      }
+      else if(authSuccessAction.payload.redirect){
         this.router.navigate(['/']);
       }
     })
