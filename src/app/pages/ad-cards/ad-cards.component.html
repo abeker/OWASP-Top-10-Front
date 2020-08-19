@@ -37,15 +37,14 @@
       <ng-template #coverTemplate>
         <nz-carousel [nzEffect]="'fade'">
           <div nz-carousel-content *ngFor="let image of ad.photos">
-            <img class="carousel-img" *ngIf="image!==undefined" [src]=image.picByte>
-            <img class="carousel-img" *ngIf="image===undefined" src="assets\img\default_img.png">
+            <img class="carousel-img" [src]=image.picByte>
           </div>
         </nz-carousel>
         <img class="carousel-img" *ngIf="ad.photos.length===0" src="assets\img\default_img.png">
       </ng-template>
 
       <ng-template #actionAddToCart>
-        <i nz-icon nzType="plus" nzTheme="outline" (click)="addToCart(ad.id)"></i>
+        <i nz-icon nzType="plus" nzTheme="outline" (click)="addToCart(ad)"></i>
       </ng-template>
       <ng-template #actionDetails>
         <i nz-icon nzType="info-circle" nzTheme="outline" (click)="info(ad.id)"></i>

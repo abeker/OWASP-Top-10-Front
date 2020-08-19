@@ -25,6 +25,8 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { AgentRegistrationComponent } from './pages/agent-registration/agent-registration.component';
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 import { AdCardsComponent } from './pages/ad-cards/ad-cards.component';
+import { CartEffects } from './cart-store/cart.effects';
+import { CartComponent } from './pages/cart/cart.component';
 
 registerLocaleData(en);
 
@@ -41,7 +43,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     DashboardComponent,
     AgentRegistrationComponent,
     RegistrationRequestsComponent,
-    AdCardsComponent
+    AdCardsComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     ReactiveFormsModule,
     StoreModule.forRoot(fromApp.appReducer),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
-    EffectsModule.forRoot([ AuthEffects ])
+    EffectsModule.forRoot([ AuthEffects, CartEffects ])
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

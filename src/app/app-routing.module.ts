@@ -7,6 +7,7 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { AgentRegistrationComponent } from './pages/agent-registration/agent-registration.component';
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 import { AdCardsComponent } from './pages/ad-cards/ad-cards.component';
+import { CartComponent } from './pages/cart/cart.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth/login' },
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'agent-registration', component: AgentRegistrationComponent },
       { path: 'registration-requests', component: RegistrationRequestsComponent },
       { path: 'ads', component: AdCardsComponent },
+      { path: 'cart', component: CartComponent },
     ]
   }
 ];

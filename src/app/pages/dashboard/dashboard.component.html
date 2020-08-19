@@ -21,7 +21,13 @@
       <nz-sider nzWidth="250px" nzTheme="dark">
         <ul nz-menu nzMode="inline" class="sider-menu" nzTheme="dark">
           <li *ngIf="isSimpleUser" (click)="showAds()" nz-menu-item><i nz-icon nzType="car" nzTheme="outline"></i>Ads</li>
-          <li *ngIf="isSimpleUser" nz-menu-item><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Shopping Cart</li>
+          <li *ngIf="isSimpleUser"
+            [@divState]="state"
+            (click)="showCart()"
+            nz-menu-item>
+            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+            Shopping Cart
+          </li>
           <li *ngIf="isSimpleUser" nz-submenu nzTitle="Requests" nzIcon="shopping">
             <ul>
               <li nz-menu-item>Pending</li>

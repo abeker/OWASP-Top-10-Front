@@ -31,6 +31,7 @@ export interface AgentResponse {
   username: string;
   firstName: string;
   lastName: string;
+  address: string;
   userRole: string;
 }
 
