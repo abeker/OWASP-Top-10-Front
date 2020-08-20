@@ -19,6 +19,9 @@ export class AdCardsComponent implements OnInit {
   adList: AdResponse[];
   adListOriginal: AdResponse[];
   @ViewChild('searchField') searchField: ElementRef;
+  retrievedImage: any;
+  retrievedImages: string[] = [];
+  base64Data: any;
 
   constructor(private adService: AdService,
               private message: NzMessageService,
@@ -28,8 +31,15 @@ export class AdCardsComponent implements OnInit {
   ngOnInit(): void {
     this.adService.getAds().subscribe(listOfAds => {
       this.adList = listOfAds;
+      this.adList.forEach(ad => {
+        if(ad.photos.length != 0) {
+          ad.photos.forEach(photo => {
+            photo.picByte = "data:image/jpeg;base64," + photo.picByte;
+          });
+        }
+      });
       this.adListOriginal = listOfAds;
-    })
+    });
   }
 
   getTitle(ad: AdResponse): string {
@@ -54,7 +64,7 @@ export class AdCardsComponent implements OnInit {
       gearshiftType: ad.car.gearshiftType,
       gearshiftNumberOfGears: ad.car.numberOfGears
     };
-    console.log(ad.agent.address);
+
     const adModel: Ad = {
       id: ad.id,
       photos: ad.photos,
@@ -66,7 +76,9 @@ export class AdCardsComponent implements OnInit {
     };
     let userRole: any;
     this.store.select('auth').subscribe(authData => {
-      userRole = authData.user.userRole;
+      if(authData !== null) {
+        userRole = authData.user.userRole;
+      }
     });
     if(userRole === "SIMPLE_USER") {
       this.cartService.cartChanged.next(true);

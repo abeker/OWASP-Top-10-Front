@@ -13,6 +13,6 @@ export class SimpleUserService {
   constructor(private http: HttpClient) { }
 
   getAllRequestsByStatus(userStatus): Observable<any> {
-    return this.http.get(this.baseUrl + `auth/simple-users/` + userStatus);
+    return this.http.get(this.baseUrl + `auth/simple-users/` + userStatus + "/status");
   }
 }

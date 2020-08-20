@@ -98,6 +98,22 @@ export class DashboardComponent implements OnInit {
     this.router.navigateByUrl('dashboard/cart');
   }
 
+  createAd(): void {
+    this.router.navigateByUrl('dashboard/create-ad');
+  }
+
+  getSimpleUserRequests(requestStatus): void {
+    this.router.navigateByUrl('dashboard/user-requests/'+requestStatus);
+  }
+
+  getAgentRequests(requestStatus): void {
+    this.router.navigateByUrl('dashboard/agent-requests/'+requestStatus);
+  }
+
+  showAgentAds(): void {
+    this.router.navigateByUrl('dashboard/agent-ads');
+  }
+
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
   }

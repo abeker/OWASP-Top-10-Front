@@ -20,7 +20,15 @@
 
       <nz-sider nzWidth="250px" nzTheme="dark">
         <ul nz-menu nzMode="inline" class="sider-menu" nzTheme="dark">
-          <li *ngIf="isSimpleUser" (click)="showAds()" nz-menu-item><i nz-icon nzType="car" nzTheme="outline"></i>Ads</li>
+          <li *ngIf="isSimpleUser" nzSelected (click)="showAds()" nz-menu-item>
+            <i nz-icon nzType="car" nzTheme="outline"></i>
+            Ads
+          </li>
+          <li *ngIf="isAgent" nzSelected nz-menu-item (click)="showAgentAds()">
+            <i nz-icon nzType="car" nzTheme="outline"></i>
+            My Ads
+          </li>
+          <li *ngIf="isAgent" (click)="createAd()" nz-menu-item><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Create Ad</li>
           <li *ngIf="isSimpleUser"
             [@divState]="state"
             (click)="showCart()"
@@ -30,10 +38,18 @@
           </li>
           <li *ngIf="isSimpleUser" nz-submenu nzTitle="Requests" nzIcon="shopping">
             <ul>
-              <li nz-menu-item>Pending</li>
-              <li nz-menu-item>Reserved</li>
-              <li nz-menu-item>Paid</li>
-              <li nz-menu-item>Canceled</li>
+              <li nz-menu-item (click)="getSimpleUserRequests('PENDING')">Pending</li>
+              <li nz-menu-item (click)="getSimpleUserRequests('RESERVED')">Reserved</li>
+              <li nz-menu-item (click)="getSimpleUserRequests('PAID')">Paid</li>
+              <li nz-menu-item (click)="getSimpleUserRequests('CANCELED')">Canceled</li>
+            </ul>
+          </li>
+          <li *ngIf="isAgent" nz-submenu nzTitle="Requests" nzIcon="shopping">
+            <ul>
+              <li nz-menu-item (click)="getAgentRequests('PENDING')">Pending</li>
+              <li nz-menu-item (click)="getAgentRequests('RESERVED')">Reserved</li>
+              <li nz-menu-item (click)="getAgentRequests('PAID')">Paid</li>
+              <li nz-menu-item (click)="getAgentRequests('CANCELED')">Canceled</li>
             </ul>
           </li>
         </ul>

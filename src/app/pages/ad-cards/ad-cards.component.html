@@ -37,7 +37,10 @@
       <ng-template #coverTemplate>
         <nz-carousel [nzEffect]="'fade'">
           <div nz-carousel-content *ngFor="let image of ad.photos">
-            <img class="carousel-img" [src]=image.picByte>
+            <img
+              class="carousel-img"
+              [src]=image.picByte
+              style="height: 100%; width: 100%; display: block;">
           </div>
         </nz-carousel>
         <img class="carousel-img" *ngIf="ad.photos.length===0" src="assets\img\default_img.png">

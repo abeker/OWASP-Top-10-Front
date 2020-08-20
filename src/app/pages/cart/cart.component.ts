@@ -31,6 +31,7 @@ export class CartComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateTo: Date;
   dates: Object;
+  isRequestFormOk: boolean = false;
 
   constructor(private store: Store<fromApp.AppState>,
               private message: NzMessageService,
@@ -89,7 +90,9 @@ export class CartComponent implements OnInit, OnDestroy {
     let customerID: string;
     let isOk: boolean[] = [];
     this.store.select('auth').subscribe(authData => {
-      customerID = authData.user.id;
+      if(authData !== null) {
+        customerID = authData.user.id;
+      }
     });
 
     this.store.select('cart').subscribe(cart => {

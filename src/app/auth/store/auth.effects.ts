@@ -125,6 +125,9 @@ export class AuthEffects {
       if(!authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'SIMPLE_USER') {
         this.router.navigate(['/dashboard/ads']);
       }
+      else if(!authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'AGENT') {
+        this.router.navigate(['/dashboard/agent-ads']);
+      }
       else if(authSuccessAction.payload.redirect){
         this.router.navigate(['/']);
       }

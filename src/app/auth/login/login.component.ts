@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
               private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new AuthActions.Logout());
     this.validateForm = this.fb.group({
       username: [null, [Validators.required, Validators.email, Validators.minLength(8)]],
       password: [null, [Validators.required, , Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]]

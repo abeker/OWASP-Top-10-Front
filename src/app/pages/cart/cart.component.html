@@ -22,9 +22,11 @@
       </nz-card>
       <ng-template #coverTemplate>
           <div *ngIf="cart.ad.photos.length !== 0; else elseContent">
-            <img [src]="cart.ad.photos[0]"
+            <img [src]="cart.ad.photos[0].picByte"
+              style="display: block; border-radius: 7px;"
+              width="88%"
               height="250px"
-              width="100px">
+            >
           </div>
           <ng-template #elseContent>
             <img src="assets\img\default_img.png"

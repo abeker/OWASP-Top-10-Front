@@ -1,0 +1,59 @@
+.numeric-input .ant-tooltip-inner {
+  min-width: 32px;
+  min-height: 37px;
+}
+.numeric-input .numeric-input-title {
+  font-size: 14px;
+}
+[nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+#main-div {
+  text-align: center;
+}
+hr {
+  width: 40%;
+}
+.example-input {
+  width: 40%;
+  margin-left: 30%;
+}
+.example-input2 {
+  width: 15%;
+  margin-left: 42%;
+}
+
+nz-select {
+  margin-right: 8px;
+  width: 120px;
+}
+:host ::ng-deep .upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+:host ::ng-deep .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+  float: right;
+}
+:host ::ng-deep .upload-list-inline .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+:host ::ng-deep .upload-list-inline .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
+.title_creating_ad{
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 12px;
+  opacity: 0.3;
+}
+
+input {
+  height: 35px;
+}

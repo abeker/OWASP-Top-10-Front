@@ -5,6 +5,7 @@
   background: #364e7967;
   color: #fff;
   overflow: hidden;
+  display: block;
 }
 
 h3 {

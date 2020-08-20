@@ -6,17 +6,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AdService {
+export class CarModelService {
 
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getAds(): Observable<any> {
-    return this.http.get(this.baseUrl + `ads/ads`);
-  }
-
-  postAd(body): Observable<any> {
-    return this.http.post(this.baseUrl + `ads/ads`, body);
+  getAllCarModels(): Observable<any> {
+    return this.http.get(this.baseUrl + `ads/car-models`);
   }
 }

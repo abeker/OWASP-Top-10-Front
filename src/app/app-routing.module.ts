@@ -8,6 +8,10 @@ import { AgentRegistrationComponent } from './pages/agent-registration/agent-reg
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 import { AdCardsComponent } from './pages/ad-cards/ad-cards.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { CreateAdComponent } from './pages/create-ad/create-ad.component';
+import { AgentRequestsComponent } from './pages/agent-requests/agent-requests.component';
+import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
+import { AgentAdsComponent } from './pages/agent-ads/agent-ads.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth/login' },
@@ -19,6 +23,10 @@ const routes: Routes = [
       { path: 'registration-requests', component: RegistrationRequestsComponent },
       { path: 'ads', component: AdCardsComponent },
       { path: 'cart', component: CartComponent },
+      { path: 'create-ad', component: CreateAdComponent },
+      { path: 'agent-ads', component: AgentAdsComponent },
+      { path: 'agent-requests/:requestStatus', component: AgentRequestsComponent },
+      { path: 'user-requests/:requestStatus', component: UserRequestsComponent },
     ]
   }
 ];
