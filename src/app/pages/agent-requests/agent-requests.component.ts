@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RequestService } from './../../services/request.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Request } from './../../interfaces/request.model';
+import { NzMessageService } from 'ng-zorro-antd';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-agent-requests',
@@ -14,7 +17,9 @@ export class AgentRequestsComponent implements OnInit {
   requestList: Request[];
 
   constructor(private route: ActivatedRoute,
-              private requestService: RequestService) { }
+              private requestService: RequestService,
+              private message: NzMessageService,
+              private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -26,8 +31,8 @@ export class AgentRequestsComponent implements OnInit {
   }
 
   sendRequest(requestStatus: string): void {
-    let user = JSON.parse(localStorage.getItem("userData"));
-    this.requestService.getAgentRequests(user["id"], requestStatus).subscribe(requests => {
+    let user = this.getUser();
+    this.requestService.getAgentRequests(user.id, requestStatus).subscribe(requests => {
       this.requestList = requests;
     })
   }
@@ -37,15 +42,28 @@ export class AgentRequestsComponent implements OnInit {
   }
 
   approveRequest(requestId: string): void {
+    this.message.success('Request successfully approved!');
     this.requestService.approveRequest(requestId).subscribe(requests => {
       this.requestList = requests;
     });
   }
 
   denyRequest(requestId: string): void {
+    this.message.info('Request successfully denied!');
     this.requestService.denyRequest(requestId).subscribe(requests => {
       this.requestList = requests;
     })
+  }
+
+  getUser(): any {
+    let user = null;
+    this.store.select('auth').subscribe(authData => {
+      if(authData !== null) {
+        user = authData.user;
+      }
+    });
+
+    return user;
   }
 
 }

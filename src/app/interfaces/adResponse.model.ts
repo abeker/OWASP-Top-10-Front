@@ -7,6 +7,7 @@ export interface AdResponse {
   availableKilometersPerRent: string;
   seats: number;
   creationDate: string;
+  numberOfRequests: number;
 }
 
 export interface CarResponse {

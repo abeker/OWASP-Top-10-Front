@@ -13,7 +13,6 @@ import * as AuthActions from '../../auth/store/auth.actions';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
   validateForm: FormGroup;
   isUsernameExist: boolean = false;
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova

@@ -50,8 +50,79 @@
         <i nz-icon nzType="plus" nzTheme="outline" (click)="addToCart(ad)"></i>
       </ng-template>
       <ng-template #actionDetails>
-        <i nz-icon nzType="info-circle" nzTheme="outline" (click)="info(ad.id)"></i>
+        <i nz-icon nzType="info-circle" nzTheme="outline"
+          (click)="openDrawer(ad)"></i>
       </ng-template>
     </div>
   </div>
 </div>
+
+<!-- DRAWER za Ad Info -->
+<nz-drawer [nzVisible]="visibleDrawer" [nzWidth]="500"
+  *ngIf="visibleDrawer"
+  [nzClosable]="false" (nzOnClose)="closeDrawer()">
+  <p class="title" style=" margin-bottom: 24px;">Ad Details</p>
+  <nz-descriptions [nzColumn]="2" nzTitle="Car Details">
+    <nz-descriptions-item nzTitle="Brand" [nzSpan]="1">
+       {{ adInfo.car.carModel.brandName }} ({{ adInfo.car.carModel.brandCountry }})
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Model" [nzSpan]="1">
+      {{ adInfo.car.carModel.modelName }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Class" [nzSpan]="1">
+      {{ adInfo.car.carModel.className }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Fuel Type" [nzSpan]="1">
+      {{ adInfo.car.fuelType }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Gearshift Type" [nzSpan]="1">
+      {{ adInfo.car.gearshiftType }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Number Of Gears" [nzSpan]="1">
+      {{ adInfo.car.numberOfGears }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Kilometers travelled" [nzSpan]="1">
+      {{ adInfo.car.kilometersTravelled }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Limited distance" [nzSpan]="1">
+      <i nz-icon nzType="check-circle" nzTheme="outline" *ngIf="adInfo.limitedDistance"></i>
+      <i nz-icon nzType="close-circle" nzTheme="outline" *ngIf="!adInfo.limitedDistance"></i>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Available kilometers per rent" [nzSpan]="2">
+      {{ adInfo.availableKilometersPerRent }}
+    </nz-descriptions-item>
+  </nz-descriptions>
+  <nz-divider></nz-divider>
+  <nz-descriptions [nzColumn]="2" nzTitle="Agent Details">
+    <nz-descriptions-item nzTitle="First Name" [nzSpan]="1">
+      {{ adInfo.agent.firstName }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Last Name" [nzSpan]="1">
+      {{ adInfo.agent.lastName }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Address" [nzSpan]="1">
+      {{ adInfo.agent.address }}
+    </nz-descriptions-item>
+  </nz-descriptions>
+  <nz-divider></nz-divider>
+  <div style="text-align: center;">
+    <nz-carousel
+      class="carousel_adDetails"
+      nzAutoPlay
+      *ngIf="adInfo.photos.length !== 0; else elseContent">
+      <div nz-carousel-content *ngFor="let photo of adInfo.photos">
+        <img
+          class="carousel-img"
+          [src]=photo.picByte
+          style="height: 100%; width: 100%; display: block; border-radius: 8px;">
+      </div>
+    </nz-carousel>
+    <ng-template #elseContent>
+      <img class="img_adDetails" src="assets\img\default_img.png">
+    </ng-template>
+  </div>
+</nz-drawer>

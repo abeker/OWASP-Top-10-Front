@@ -16,6 +16,14 @@
         <h4><i> From: </i>{{ request.pickUpDate }} {{ request.pickUpTime }} </h4>
         <h4><i> To: </i>{{ request.returnDate }} {{ request.returnTime }} </h4>
         <br>
+        <nz-rate [(ngModel)]="userRating" *ngIf="request.requestStatus==='PAID'"></nz-rate>
+        <a *ngIf="request.requestStatus==='PAID'"
+          style="margin-left: 10px;" nz-popconfirm nzPopconfirmTitle="Sent this mark?"
+          nzOkText="Yes" nzCancelText="No"
+          (nzOnConfirm)="confirmRating(request.ad)" (nzOnCancel)="cancelRating()">
+          Rate
+        </a>
+
         <button *ngIf="request.requestStatus === 'RESERVED'"
           nz-button
           nzType="primary"

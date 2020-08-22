@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 export class AdService {
 
   private baseUrl = environment.baseUrl;
+  ad_detailsAdId = new Subject<string>();
 
   constructor(private http: HttpClient) { }
 

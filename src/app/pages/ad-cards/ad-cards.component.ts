@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Ad } from 'src/app/shared/ad.model';
@@ -8,6 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 import { AdResponse } from './../../interfaces/adResponse.model';
 import { AdService } from './../../services/ad.service';
 import { CartService } from './../../services/cart.service';
+import * as AdActions from '../../ad-store/ad.actions';
 
 @Component({
   selector: 'app-ad-cards',
@@ -22,11 +24,18 @@ export class AdCardsComponent implements OnInit {
   retrievedImage: any;
   retrievedImages: string[] = [];
   base64Data: any;
+  loading: boolean = false;
+
+  adInfo: AdResponse;
+  visibleDrawer = false;
+
+  array = [1, 2, 3, 4];
 
   constructor(private adService: AdService,
               private message: NzMessageService,
               private store: Store<fromApp.AppState>,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.adService.getAds().subscribe(listOfAds => {
@@ -89,10 +98,6 @@ export class AdCardsComponent implements OnInit {
     }
   }
 
-  info(id): void {
-    this.message.info('Info. ['+id+']');
-  }
-
   search(): void {
     let searchValue: string = this.searchField.nativeElement.value;
     let searchingResult: AdResponse[] = [];
@@ -108,6 +113,16 @@ export class AdCardsComponent implements OnInit {
 
   reloadSearch(): void {
     this.adList = [...this.adListOriginal];
+  }
+
+  openDrawer(ad: AdResponse): void {
+    this.adInfo = ad;
+    this.visibleDrawer = true;
+    console.log(ad.photos[0].picByte);
+  }
+
+  closeDrawer(): void {
+    this.visibleDrawer = false;
   }
 
 }

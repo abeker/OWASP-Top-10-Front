@@ -2,6 +2,12 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="7" *ngFor="let ad of adList">
       <nz-card style="background-color: rgba(255, 255, 255, 0.5);">
+        <nz-tag class="tag_request" [nzColor]="'#0000FF'"
+          *ngIf="ad.numberOfRequests > 1 && ad.numberOfRequests <= 4">interesting</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'#FFFF00'" style="color: black;"
+          *ngIf="ad.numberOfRequests > 4 && ad.numberOfRequests <= 8">popular</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'#FF007F'"
+          *ngIf="ad.numberOfRequests > 8">most popular</nz-tag>
         <h2> {{ getTitle(ad) }} </h2>
         <br>
         <h4><i> Car class: {{ ad.car.carModel.className }} </i></h4>

@@ -19,6 +19,13 @@
           [nzDisabledDate]="disabledDate"
         ></nz-range-picker>
         <br>
+        <br>
+        <a nz-popconfirm nzPopconfirmTitle="Delete this ad from cart?"
+          style="color: red;"
+          nzOkText="Yes" nzCancelText="No"
+          (nzOnConfirm)="confirmDelete(cart.ad)" (nzOnCancel)="cancelDelete()">
+          Delete
+        </a>
       </nz-card>
       <ng-template #coverTemplate>
           <div *ngIf="cart.ad.photos.length !== 0; else elseContent">

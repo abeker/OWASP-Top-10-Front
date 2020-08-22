@@ -1,10 +1,12 @@
 import { Action } from '@ngrx/store';
 import { Cart } from '../shared/cart.model';
+import { AdResponse } from './../interfaces/adResponse.model';
 
 export const ADD_TO_CART = '[Cart] Add an Ad in Cart';
 export const CHANGE_DATE_TIME = '[Cart] Change Date&Time';
 export const CHANGE_ADDRESS = '[Cart] Change Address';
 export const CLEAR_CART = '[Cart] Clear Cart';
+export const DELETE_AD_FROM_CART = '[Cart] Delete Ad From Cart';
 
 export class AddToCart implements Action {
   readonly type = ADD_TO_CART;
@@ -35,7 +37,13 @@ export class ClearCart implements Action {
   readonly type = CLEAR_CART;
 }
 
+export class DeleteAdFromCart implements Action {
+  readonly type = DELETE_AD_FROM_CART;
+  constructor(public payload: AdResponse) {}
+}
+
 export type CartActions = AddToCart
                         | ChangeDateTime
                         | ChangeAddress
-                        | ClearCart;
+                        | ClearCart
+                        | DeleteAdFromCart;

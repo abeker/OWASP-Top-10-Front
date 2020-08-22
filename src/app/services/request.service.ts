@@ -18,7 +18,12 @@ export class RequestService {
               private store: Store<fromApp.AppState>) { }
 
   sendRequest(requestList): Observable<any> {
-    return this.http.post(this.baseUrl + `ads/requests`, requestList);
+    this.getToken();
+    return this.http.post(this.baseUrl + `ads/requests`, requestList, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   approveRequest(requestId: string): Observable<any> {
@@ -58,11 +63,21 @@ export class RequestService {
   }
 
   getAgentRequests(agentId:string, requestStatus:string): Observable<any> {
-    return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/agent/" + agentId);
+    this.getToken();
+    return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/agent/" + agentId, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   getUserRequests(userId:string, requestStatus:string): Observable<any> {
-    return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/simple-user/" + userId);
+    this.getToken();
+    return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/simple-user/" + userId, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   getToken(): void {
