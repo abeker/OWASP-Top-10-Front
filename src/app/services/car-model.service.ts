@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SimpleUserService {
+export class CarModelService {
 
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getAllRequestsByStatus(userStatus): Observable<any> {
-    return this.http.get(this.baseUrl + `auth/simple-users/` + userStatus + "/status");
+  getAllCarModels(): Observable<any> {
+    return this.http.get(this.baseUrl + `ads/car-models`);
   }
 }

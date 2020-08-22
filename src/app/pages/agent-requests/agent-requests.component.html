@@ -1,0 +1,36 @@
+<div style="background: #ececec00; padding:30px; text-align: center;">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="7" *ngFor="let request of requestList">
+      <nz-card style="background-color: rgba(255, 255, 255, 0.5);">
+        <nz-tag class="tag_request" [nzColor]="'gold'" *ngIf="request.requestStatus==='PENDING'">pending</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'green'" *ngIf="request.requestStatus==='RESERVED'">reserved</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'blue'" *ngIf="request.requestStatus==='PAID'">paid</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'red'" *ngIf="request.requestStatus==='CANCELED'">canceled</nz-tag>
+        <h2> {{ getTitle(request) }} </h2>
+        <br>
+        <h4><i> Fuel type: {{ request.ad.car.fuelType }} </i></h4>
+        <h4><i> Gearshift type: {{ request.ad.car.gearshiftType }} </i></h4>
+        <h4><i> Number of gears: {{ request.ad.car.numberOfGears }} </i></h4>
+        <hr>
+        <h4><i> Customer: </i>{{ request.simpleUser.firstName }} {{ request.simpleUser.lastName }} </h4>
+        <h4><i> From: </i>{{ request.pickUpDate }} {{ request.pickUpTime }} </h4>
+        <h4><i> To: </i>{{ request.returnDate }} {{ request.returnTime }} </h4>
+        <br>
+        <button *ngIf="request.requestStatus === 'PENDING'"
+          nz-button
+          nzType="primary"
+          nzGhost
+          style="margin-right: 10px;"
+          (click)="approveRequest(request.id)"
+          >Approve</button>
+        <button *ngIf="request.requestStatus === 'PENDING'"
+          nz-button
+          nzType="default"
+          style="background-color: transparent;"
+          nzDanger
+          (click)="denyRequest(request.id)"
+          >Deny</button>
+      </nz-card>
+    </div>
+  </div>
+</div>

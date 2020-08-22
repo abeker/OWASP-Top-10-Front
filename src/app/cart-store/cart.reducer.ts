@@ -73,6 +73,13 @@ export function cartReducer(state: State = initiaState, action: CartActions.Cart
           ...state,
           cartContent: cleanCart
         }
+      case CartActions.DELETE_AD_FROM_CART:
+        return {
+          ...state,
+          cartContent: state.cartContent.filter((cart, cart_index) => {
+            return cart.ad.id !== action.payload.id;
+          })
+        }
       default:
         return state;
   }

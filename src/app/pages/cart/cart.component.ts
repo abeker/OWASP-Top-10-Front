@@ -8,6 +8,7 @@ import { Cart } from 'src/app/shared/cart.model';
 import * as CartActions from '../../cart-store/cart.actions';
 import * as fromApp from '../../store/app.reducer';
 import { RequestService } from './../../services/request.service';
+import { AdResponse } from './../../interfaces/adResponse.model';
 
 export interface RequestDTO {
   adID: string;
@@ -31,6 +32,7 @@ export class CartComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateTo: Date;
   dates: Object;
+  isRequestFormOk: boolean = false;
 
   constructor(private store: Store<fromApp.AppState>,
               private message: NzMessageService,
@@ -86,46 +88,66 @@ export class CartComponent implements OnInit, OnDestroy {
 
   sendRequest(): void {
     let requestBody: RequestDTO[] = [];
-    let customerID: string;
-    let isOk: boolean[] = [];
-    this.store.select('auth').subscribe(authData => {
-      customerID = authData.user.id;
-    });
+    let customer = this.getUser();
+    let customerID: string = customer.id;
+    let cartContent: Cart[];
 
     this.store.select('cart').subscribe(cart => {
-      cart.cartContent.forEach(cart => {
-        let requestDTO: RequestDTO;
-        if(this.checkInputFields(cart)) {
-          const ad: Ad = {...cart.ad};
-          requestDTO = {
-            adID: ad.id,
-            customerID: customerID,
-            pickUpDate: ad.dateFrom,
-            pickUpTime: ad.timeFrom,
-            returnDate: ad.dateTo,
-            returnTime: ad.timeTo,
-            pickUpAddress: ad.pickUpAddress,
-          }
+      cartContent = cart.cartContent;
+    });
 
-          requestBody.push(requestDTO);
-          isOk.push(true);
-        } else {
-          isOk.push(false);
-        }
-      });
+    if(this.isFilledAllInputFields() && cartContent.length != 0) {
+        cartContent.forEach(cartItem => {
+          let requestDTO: RequestDTO;
+            const ad: Ad = {...cartItem.ad};
+            requestDTO = {
+              adID: ad.id,
+              customerID: customerID,
+              pickUpDate: ad.dateFrom,
+              pickUpTime: ad.timeFrom,
+              returnDate: ad.dateTo,
+              returnTime: ad.timeTo,
+              pickUpAddress: ad.pickUpAddress,
+            }
 
-      if(isOk.indexOf(false) === -1) {
-        console.log(requestBody);
-         this.requestService.sendRequest(requestBody).subscribe(() => {
-          this.message.success('Request is successfully created.');
-          this.store.dispatch(new CartActions.ClearCart());
-         }, error => {
-            this.message.error('Request is not created.');
-         })
-      } else {
-        this.message.warning('Please fill all input fields.');
+            requestBody.push(requestDTO);
+        });
+
+        this.requestService.sendRequest(requestBody).subscribe(() => {
+           this.message.success('Request is successfully created.');
+           this.store.dispatch(new CartActions.ClearCart());
+           return;
+        }, error => {
+           this.message.error(error.error);
+           this.store.dispatch(new CartActions.ClearCart());
+           return;
+        });
+    } else {
+      this.message.warning('Please fill all input fields.');
+      return;
+    }
+  }
+
+  getUser(): any {
+    let user = null;
+    this.store.select('auth').subscribe(authData => {
+      if(authData !== null) {
+        user = authData.user;
       }
     });
+
+    return user;
+  }
+
+  isFilledAllInputFields(): boolean {
+    this.store.select('cart').subscribe(cart => {
+      cart.cartContent.forEach(cartItem => {
+        if(!this.checkInputFields(cartItem)) {
+          return false;
+        }
+      })
+    });
+    return true;
   }
 
   checkInputFields(cart: Cart): boolean {
@@ -133,6 +155,14 @@ export class CartComponent implements OnInit, OnDestroy {
       return false;
     }
     return true;
+  }
+
+  cancelDelete(): void {
+  }
+
+  confirmDelete(ad: AdResponse): void {
+    this.message.info('Ad successfully deleted from cart.');
+    this.store.dispatch(new CartActions.DeleteAdFromCart(ad));
   }
 
   ngOnDestroy(): void {

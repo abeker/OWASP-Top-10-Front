@@ -8,7 +8,7 @@ import * as fromApp from '../store/app.reducer';
 @Injectable({
   providedIn: 'root'
 })
-export class AgentService {
+export class RatingService {
 
   private baseUrl = environment.baseUrl;
   subscriptionUser: Subscription;
@@ -17,13 +17,9 @@ export class AgentService {
   constructor(private http: HttpClient,
     private store: Store<fromApp.AppState>) { }
 
-  createAgent(createAgentRequest): Observable<any> {
-    return this.http.post(this.baseUrl + `auth/agents`, createAgentRequest);
-  }
-
-  getAgentAds(agentId: string): Observable<any> {
+  rate(rate: string, adId: string): Observable<any> {
     this.getToken();
-    return this.http.get(this.baseUrl + `ads/ads/`+agentId+'/ads', {
+    return this.http.post(this.baseUrl + `ads/ratings/`+rate, adId, {
       headers: new HttpHeaders ({
         'Auth-Token' : this.activeUserToken
       })

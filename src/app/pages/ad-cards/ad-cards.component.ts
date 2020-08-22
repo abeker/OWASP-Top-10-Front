@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Ad } from 'src/app/shared/ad.model';
@@ -8,6 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 import { AdResponse } from './../../interfaces/adResponse.model';
 import { AdService } from './../../services/ad.service';
 import { CartService } from './../../services/cart.service';
+import * as AdActions from '../../ad-store/ad.actions';
 
 @Component({
   selector: 'app-ad-cards',
@@ -19,17 +21,34 @@ export class AdCardsComponent implements OnInit {
   adList: AdResponse[];
   adListOriginal: AdResponse[];
   @ViewChild('searchField') searchField: ElementRef;
+  retrievedImage: any;
+  retrievedImages: string[] = [];
+  base64Data: any;
+  loading: boolean = false;
+
+  adInfo: AdResponse;
+  visibleDrawer = false;
+
+  array = [1, 2, 3, 4];
 
   constructor(private adService: AdService,
               private message: NzMessageService,
               private store: Store<fromApp.AppState>,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.adService.getAds().subscribe(listOfAds => {
       this.adList = listOfAds;
+      this.adList.forEach(ad => {
+        if(ad.photos.length != 0) {
+          ad.photos.forEach(photo => {
+            photo.picByte = "data:image/jpeg;base64," + photo.picByte;
+          });
+        }
+      });
       this.adListOriginal = listOfAds;
-    })
+    });
   }
 
   getTitle(ad: AdResponse): string {
@@ -54,7 +73,7 @@ export class AdCardsComponent implements OnInit {
       gearshiftType: ad.car.gearshiftType,
       gearshiftNumberOfGears: ad.car.numberOfGears
     };
-    console.log(ad.agent.address);
+
     const adModel: Ad = {
       id: ad.id,
       photos: ad.photos,
@@ -66,7 +85,9 @@ export class AdCardsComponent implements OnInit {
     };
     let userRole: any;
     this.store.select('auth').subscribe(authData => {
-      userRole = authData.user.userRole;
+      if(authData !== null) {
+        userRole = authData.user.userRole;
+      }
     });
     if(userRole === "SIMPLE_USER") {
       this.cartService.cartChanged.next(true);
@@ -75,10 +96,6 @@ export class AdCardsComponent implements OnInit {
         ad: adModel
       }));
     }
-  }
-
-  info(id): void {
-    this.message.info('Info. ['+id+']');
   }
 
   search(): void {
@@ -96,6 +113,16 @@ export class AdCardsComponent implements OnInit {
 
   reloadSearch(): void {
     this.adList = [...this.adListOriginal];
+  }
+
+  openDrawer(ad: AdResponse): void {
+    this.adInfo = ad;
+    this.visibleDrawer = true;
+    console.log(ad.photos[0].picByte);
+  }
+
+  closeDrawer(): void {
+    this.visibleDrawer = false;
   }
 
 }

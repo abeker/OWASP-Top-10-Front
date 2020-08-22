@@ -1,0 +1,70 @@
+<!-- dropdown list -->
+<div id="main-div">
+  <h1 class="title_creating_ad">Create New Ad</h1>
+  <div class="example-input">
+    <input placeholder="Car Model" nz-input [(ngModel)]="inputCarModel"
+      (ngModelChange)="onChangeCarModel($event)" [nzAutocomplete]="auto" required
+      style="width: 60%;"/>
+    <nz-autocomplete [nzDataSource]="filteredCarModelOptions" #auto></nz-autocomplete>
+  </div>
+<hr>
+<nz-radio-group [(ngModel)]="fuelTypeRadio" nzSize="large">
+  <label nz-radio-button nzValue="Diesel">Diesel</label>
+  <label nz-radio-button nzValue="Benzine">Benzine</label>
+  <label nz-radio-button nzValue="Gas">Gas</label>
+</nz-radio-group>
+<hr>
+<nz-radio-group [(ngModel)]="gearshifTypeRadio" nzSize="large">
+  <label nz-radio-button nzValue="Manual">Manual</label>
+  <label nz-radio-button nzValue="Automatic">Automatic</label>
+  <label nz-radio-button nzValue="Semiautomatic">Semiautomatic</label>
+</nz-radio-group>
+<hr>
+<label style="margin-right: 15px;">Number of gears:</label>
+<nz-input-number [(ngModel)]="numberOfGears"
+  [nzMin]="4"
+  [nzMax]="10"
+  [nzStep]="1">
+</nz-input-number>
+<hr>
+<!-- SLIKAAAAAAAAAAAAAAAAAAAAAAAA -->
+<div class="clearfix" style="margin-left: 200px;">
+  <nz-upload
+    class="upload-list-inline"
+    nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+    nzListType="picture"
+    [(nzFileList)]="fileList2"
+  >
+    <button nz-button style="margin-left: -200px;">
+      <span><i nz-icon nzType="upload"></i> Upload</span>
+    </button>
+  </nz-upload>
+</div>
+<!-- SLIKAAAAAAAAAAAAAAAAAAAAAAAA -->
+<hr>
+<label nz-checkbox [(ngModel)]="isLimitedDistance">Limited Distance</label>
+<hr>
+<input nz-input placeholder="Available Kilometers Per Rent" [(ngModel)]="availableKilometers" style="width: 320px; text-align: center;" required/>
+<hr>
+<input nz-input placeholder="Kilometers Traveled" [(ngModel)]="kilometersTraveled" style="width: 320px;text-align: center;" required/>
+<hr>
+<input
+      #inputElement
+      style="width: 120px; text-align: center;"
+      nz-input
+      nz-tooltip
+      nzTooltipTrigger="focus"
+      nzTooltipPlacement="topLeft"
+      nzOverlayClassName="numeric-input"
+      [ngModel]="value"
+      [nzTooltipTitle]="title"
+      placeholder="Child Seats"
+      (ngModelChange)="onChange($event)"
+      (blur)="onBlur()"
+      required
+    />
+<br />
+<br />
+<br />
+<button nz-button nzType="default" (click)="createAd()" nzGhost>Create Ad</button>
+</div>

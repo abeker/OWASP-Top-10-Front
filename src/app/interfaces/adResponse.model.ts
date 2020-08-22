@@ -5,8 +5,9 @@ export interface AdResponse {
   photos: PhotoResponse[];
   limitedDistance: boolean;
   availableKilometersPerRent: string;
-  seats: number;        //
+  seats: number;
   creationDate: string;
+  numberOfRequests: number;
 }
 
 export interface CarResponse {

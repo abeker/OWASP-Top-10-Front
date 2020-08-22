@@ -1,0 +1,28 @@
+<div style="background: #ececec00; padding:30px; text-align: center;">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="7" *ngFor="let ad of adList">
+      <nz-card style="background-color: rgba(255, 255, 255, 0.5);">
+        <nz-tag class="tag_request" [nzColor]="'#0000FF'"
+          *ngIf="ad.numberOfRequests > 1 && ad.numberOfRequests <= 4">interesting</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'#FFFF00'" style="color: black;"
+          *ngIf="ad.numberOfRequests > 4 && ad.numberOfRequests <= 8">popular</nz-tag>
+        <nz-tag class="tag_request" [nzColor]="'#FF007F'"
+          *ngIf="ad.numberOfRequests > 8">most popular</nz-tag>
+        <h2> {{ getTitle(ad) }} </h2>
+        <br>
+        <h4><i> Car class: {{ ad.car.carModel.className }} </i></h4>
+        <h4><i> Fuel type: {{ ad.car.fuelType }} </i></h4>
+        <h4><i> Gearshift type: {{ ad.car.gearshiftType }} </i></h4>
+        <h4><i> Number of gears: {{ ad.car.numberOfGears }} </i></h4>
+        <hr>
+        <h4><i>Limited distance: </i>
+          <i *ngIf="ad.limitedDistance" nz-icon nzType="check-circle" nzTheme="outline"></i>
+          <i *ngIf="!ad.limitedDistance" nz-icon nzType="close-circle" nzTheme="outline"></i>
+        </h4>
+        <h4><i>Child seats: </i> {{ ad.seats }} </h4>
+        <br>
+        <h6 style="float: right;"><i>Creation date: </i> {{ ad.creationDate }} </h6>
+      </nz-card>
+    </div>
+  </div>
+</div>
