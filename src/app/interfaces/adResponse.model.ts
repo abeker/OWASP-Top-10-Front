@@ -8,6 +8,8 @@ export interface AdResponse {
   seats: number;
   creationDate: string;
   numberOfRequests: number;
+  averageRate: string;
+  comments: CommentResponse[];
 }
 
 export interface CarResponse {
@@ -41,4 +43,11 @@ export interface PhotoResponse {
   name: string;
   type: string;
   picByte: any;
+}
+
+export interface CommentResponse {
+  id: string;
+  text: string;
+  simpleUserId: string;
+  commentStatus: string;
 }

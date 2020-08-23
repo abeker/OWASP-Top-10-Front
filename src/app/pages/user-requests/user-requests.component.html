@@ -16,13 +16,45 @@
         <h4><i> From: </i>{{ request.pickUpDate }} {{ request.pickUpTime }} </h4>
         <h4><i> To: </i>{{ request.returnDate }} {{ request.returnTime }} </h4>
         <br>
+        <nz-rate *ngIf="request.requestStatus!=='PAID' && request.requestStatus!=='RESERVED'" [ngModel]="request.ad.averageRate" nzDisabled></nz-rate>
         <nz-rate [(ngModel)]="userRating" *ngIf="request.requestStatus==='PAID'"></nz-rate>
         <a *ngIf="request.requestStatus==='PAID'"
-          style="margin-left: 10px;" nz-popconfirm nzPopconfirmTitle="Sent this mark?"
+          style="margin-left: 15px;" nz-popconfirm nzPopconfirmTitle="Sent this mark?"
           nzOkText="Yes" nzCancelText="No"
           (nzOnConfirm)="confirmRating(request.ad)" (nzOnCancel)="cancelRating()">
           Rate
         </a>
+        <div *ngIf="request.requestStatus==='PAID'">
+            <button
+              class="commentButton"
+              style="margin-top: 12px;"
+              nz-button nzType="primary" nzShape="round" nzGhost
+              (click)="openComment()">
+              <i nz-icon nzType="down" nzTheme="outline"></i>
+              Comment
+            </button>
+            <br>
+            <div style="margin-top: 15px; margin-left: -20px;" id="commentArea">
+              <nz-input-group [nzSuffix]="textAreaClearTpl" class="ant-input-affix-wrapper-textarea-with-clear-btn">
+                <textarea
+                  style="max-height: 100px;"
+                  nz-input [(ngModel)]="commentText" placeholder="Enter your comment..."></textarea>
+              </nz-input-group>
+              <ng-template #textAreaClearTpl>
+                <i
+                  nz-icon
+                  class="ant-input-textarea-clear-icon"
+                  nzTheme="fill"
+                  nzType="close-circle"
+                  *ngIf="commentText"
+                  (click)="commentText = null">
+                </i>
+              </ng-template>
+              <button
+                (click)="sendComment(request.ad.id)"
+                style="margin-top: 10px; float: right" nz-button nzType="primary" nzGhost>Send</button>
+            </div>
+        </div>
 
         <button *ngIf="request.requestStatus === 'RESERVED'"
           nz-button
