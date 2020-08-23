@@ -8,6 +8,8 @@ import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../../auth/store/auth.actions';
 import { RatingService } from './../../services/rating.service';
 import { AdResponse } from './../../interfaces/adResponse.model';
+import { User } from 'src/app/shared/user.model';
+import { CommentService } from './../../services/comment.service';
 
 @Component({
   selector: 'app-user-requests',
@@ -19,18 +21,25 @@ export class UserRequestsComponent implements OnInit {
   requestStatus: string;
   requestList: Request[];
   userRating: string = '0';
+  commentText: string | null = null;
+  user: User;
 
   constructor(private route: ActivatedRoute,
               private requestService: RequestService,
               private message: NzMessageService,
               private store: Store<fromApp.AppState>,
-              private ratingService: RatingService) { }
+              private ratingService: RatingService,
+              private commentService: CommentService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       if(this.requestStatus !== params['requestStatus']) {
         this.sendRequest(params['requestStatus']);
       }
+    });
+
+    this.store.select('auth').subscribe(authData => {
+      this.user = authData.user;
     });
   }
 
@@ -61,11 +70,28 @@ export class UserRequestsComponent implements OnInit {
 
   confirmRating(ad: AdResponse): void {
     this.ratingService.rate(this.userRating, ad.id).subscribe(response => {
-      this.message.info('ok');
+
     });
   }
 
   cancelRating(): void {
+  }
+
+  openComment(): void {
+    let commentArea = document.getElementById("commentArea");
+    if (commentArea.style.display === "none") {
+      commentArea.style.display = "block";
+    } else {
+      commentArea.style.display = "none";
+    }
+  }
+
+  sendComment(adId: string): void {
+    this.commentService.sendComment(adId, this.commentText).subscribe(response => {
+      this.message.success("Successfully sent comment.");
+    }, error => {
+      this.message.error(error.error);
+    });
   }
 
   getUser(): any {

@@ -22,6 +22,8 @@
         <h4><i>Child seats: </i> {{ ad.seats }} </h4>
         <br>
         <h6 style="float: right;"><i>Creation date: </i> {{ ad.creationDate }} </h6>
+        <br>
+        <nz-rate [ngModel]="ad.averageRate" nzDisabled></nz-rate>
       </nz-card>
     </div>
   </div>

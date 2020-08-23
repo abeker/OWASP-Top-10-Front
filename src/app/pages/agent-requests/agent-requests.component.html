@@ -16,6 +16,7 @@
         <h4><i> From: </i>{{ request.pickUpDate }} {{ request.pickUpTime }} </h4>
         <h4><i> To: </i>{{ request.returnDate }} {{ request.returnTime }} </h4>
         <br>
+        <nz-rate *ngIf="request.requestStatus!=='PENDING'" [ngModel]="request.ad.averageRate" nzDisabled></nz-rate>
         <button *ngIf="request.requestStatus === 'PENDING'"
           nz-button
           nzType="primary"
