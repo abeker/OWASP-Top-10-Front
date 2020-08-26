@@ -13,7 +13,8 @@ export class LoginStart implements Action {
   readonly type = LOGIN_START;
   constructor(public payload: {
     username: string,
-    password: string
+    password: string,
+    isSQLI: boolean
   }) {}
 }
 

@@ -60,6 +60,7 @@ export class AuthEffects {
         {
           username: authData.payload.username,
           password: authData.payload.password,
+          isSQLI: authData.payload.isSQLI
         })
       .pipe(
           map(responseData => {
@@ -89,7 +90,7 @@ export class AuthEffects {
           password: authData.payload.password,
           rePassword: authData.payload.password,
           ssn: authData.payload.ssn,
-          address: authData.payload.address,
+          address: authData.payload.address
         })
       .pipe(
           map(() => {
