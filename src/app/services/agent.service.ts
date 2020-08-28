@@ -18,7 +18,12 @@ export class AgentService {
     private store: Store<fromApp.AppState>) { }
 
   createAgent(createAgentRequest): Observable<any> {
-    return this.http.post(this.baseUrl + `auth/agents`, createAgentRequest);
+    this.getToken();
+    return this.http.post(this.baseUrl + `auth/agents`, createAgentRequest, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   getAgentAds(agentId: string): Observable<any> {

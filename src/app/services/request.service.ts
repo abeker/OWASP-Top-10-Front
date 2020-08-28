@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

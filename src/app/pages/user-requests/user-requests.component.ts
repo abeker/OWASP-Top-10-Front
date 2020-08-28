@@ -33,7 +33,6 @@ export class UserRequestsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      console.log(params['requestStatus']);
       if(this.requestStatus !== params['requestStatus']) {
         this.sendRequest(params['requestStatus']);
       }
