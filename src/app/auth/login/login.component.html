@@ -1,5 +1,12 @@
 <div class="wallpaper" style="background-image: url('https://wallpaperaccess.com/full/417644.jpg');">
   <div>
+    <nz-switch
+      style="margin-left: 20px; margin-top: 20px;"
+      [(ngModel)]="isSQLIAttackEnabled"
+      [nzControl]="true"
+      (click)="clickSwitch()"
+      [nzLoading]="loadingSQLI">
+    </nz-switch>
     <header style="color: white; font-size: x-large; font-style: oblique; margin-left: 10%;">
       <br/>
       <b>

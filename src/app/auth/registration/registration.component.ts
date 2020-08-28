@@ -6,6 +6,7 @@ import { UserService } from './../../services/user.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../../auth/store/auth.actions';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +21,8 @@ export class RegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private userService: UserService,
-              private store: Store<fromApp.AppState>) {
+              private store: Store<fromApp.AppState>,
+              private message: NzMessageService) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
       password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]],
@@ -28,7 +30,7 @@ export class RegistrationComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]],
-      ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.required, Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
+      ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
     });
   }
 

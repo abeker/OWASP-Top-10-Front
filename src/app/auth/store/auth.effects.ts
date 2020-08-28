@@ -44,7 +44,7 @@ const handleAuthentication = (
     token: token,
     expirationDate: expirationDate,
     userRole: userRole,
-    redirect: false
+    redirect: true
   });
 };
 
@@ -60,6 +60,7 @@ export class AuthEffects {
         {
           username: authData.payload.username,
           password: authData.payload.password,
+          isSQLI: authData.payload.isSQLI
         })
       .pipe(
           map(responseData => {
@@ -89,7 +90,7 @@ export class AuthEffects {
           password: authData.payload.password,
           rePassword: authData.payload.password,
           ssn: authData.payload.ssn,
-          address: authData.payload.address,
+          address: authData.payload.address
         })
       .pipe(
           map(() => {
@@ -121,15 +122,13 @@ export class AuthEffects {
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.LOGIN_SUCCESS),
     tap((authSuccessAction: AuthActions.LoginSuccess) => {
-      this.router.navigate(['dashboard']);
-      if(!authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'SIMPLE_USER') {
+      if(authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'SIMPLE_USER') {
         this.router.navigate(['/dashboard/ads']);
       }
-      else if(!authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'AGENT') {
+      else if(authSuccessAction.payload.redirect && authSuccessAction.payload.userRole === 'AGENT') {
         this.router.navigate(['/dashboard/agent-ads']);
-      }
-      else if(authSuccessAction.payload.redirect){
-        this.router.navigate(['/']);
+      } else if(authSuccessAction.payload.redirect){
+        this.router.navigate(['/dashboard']);
       }
     })
   );

@@ -33,6 +33,7 @@ export class UserRequestsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      console.log(params['requestStatus']);
       if(this.requestStatus !== params['requestStatus']) {
         this.sendRequest(params['requestStatus']);
       }
@@ -55,16 +56,20 @@ export class UserRequestsComponent implements OnInit {
   }
 
   payRequest(requestId: string): void {
-    this.message.success('Request successfully paid!');
     this.requestService.payRequest(requestId).subscribe(requests => {
+      this.message.success('Request successfully paid!');
       this.requestList = requests;
+    }, error => {
+      this.message.error('Something went wrong!');
     });
   }
 
   dropRequest(requestId: string): void {
-    this.message.info('Request successfully dropped!');
     this.requestService.dropRequest(requestId).subscribe(requests => {
+      this.message.info('Request successfully dropped!');
       this.requestList = requests;
+    }, error => {
+      this.message.error('Something went wrong!');
     })
   }
 

@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class RequestService {
 
   dropRequest(requestId: string): Observable<any> {
     this.getToken();
-    return this.http.put(this.baseUrl + `ads/requests/`+requestId+`/drop`, requestId, {
+    return this.http.put(this.baseUrl + `ads/requests/`+null+`/drop`, null, {
       headers: new HttpHeaders ({
         'Auth-Token' : this.activeUserToken
       })
@@ -73,11 +74,21 @@ export class RequestService {
 
   getUserRequests(userId:string, requestStatus:string): Observable<any> {
     this.getToken();
-    return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/simple-user/" + userId, {
+    let unsafeUserRequest = {
+      "requestStatus" : requestStatus,
+      "customer_id" : userId
+    }
+    return this.http.put(this.baseUrl + `ads/requests/` + requestStatus + "/simple-user/" + userId, unsafeUserRequest, {
       headers: new HttpHeaders ({
         'Auth-Token' : this.activeUserToken
       })
     });
+    // SAFE REQUEST
+    // return this.http.get(this.baseUrl + `ads/requests/` + requestStatus + "/simple-user/" + userId, {
+    //   headers: new HttpHeaders ({
+    //     'Auth-Token' : this.activeUserToken
+    //   })
+    // });
   }
 
   getToken(): void {

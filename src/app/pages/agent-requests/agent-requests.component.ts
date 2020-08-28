@@ -42,16 +42,20 @@ export class AgentRequestsComponent implements OnInit {
   }
 
   approveRequest(requestId: string): void {
-    this.message.success('Request successfully approved!');
     this.requestService.approveRequest(requestId).subscribe(requests => {
+      this.message.success('Request successfully approved!');
       this.requestList = requests;
+    }, error => {
+      this.message.error('Something went wrong!');
     });
   }
 
   denyRequest(requestId: string): void {
-    this.message.info('Request successfully denied!');
     this.requestService.denyRequest(requestId).subscribe(requests => {
+      this.message.info('Request successfully denied!');
       this.requestList = requests;
+    }, error => {
+      this.message.error('Something went wrong!');
     })
   }
 
