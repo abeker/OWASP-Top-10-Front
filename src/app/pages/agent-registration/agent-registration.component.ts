@@ -16,6 +16,7 @@ export class AgentRegistrationComponent implements OnInit {
 
   validateForm: FormGroup;
   isUsernameExist: boolean = false;
+  isPasswordCorrect: boolean = false;
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
 
   constructor(private fb: FormBuilder,
@@ -24,7 +25,7 @@ export class AgentRegistrationComponent implements OnInit {
               private message: NzMessageService) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
-      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
       confirm: ['', [Validators.required, this.confirmValidator, Validators.pattern(this.htmlTagRegExp)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
@@ -34,7 +35,6 @@ export class AgentRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 
   submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; }): void {
     for (const key in this.validateForm.controls) {
@@ -88,6 +88,24 @@ export class AgentRegistrationComponent implements OnInit {
         observer.complete();
       }, 1000);
     });
+
+  passwordAsyncValidator = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      this.userService.checkPassword(control.value).subscribe(() => {
+        this.isPasswordCorrect = true;
+      }, () => {
+        this.isPasswordCorrect = false;
+      });
+
+    setTimeout(() => {
+      if (this.isPasswordCorrect) {
+        observer.next({ error: true, duplicated: true });
+      } else {
+        observer.next(null);
+      }
+      observer.complete();
+    }, 1000);
+  });
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
