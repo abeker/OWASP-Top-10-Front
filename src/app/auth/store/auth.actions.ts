@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { BrowserFingerprint } from './../../interfaces/browserFingerprint.model';
 
 export const LOGIN_START = '[Auth] Login Start';
 export const LOGIN_SUCCESS = '[Auth] Login Success';
@@ -14,7 +15,8 @@ export class LoginStart implements Action {
   constructor(public payload: {
     username: string,
     password: string,
-    isSQLI: boolean
+    isSQLI: boolean,
+    browserFingerprint: BrowserFingerprint
   }) {}
 }
 

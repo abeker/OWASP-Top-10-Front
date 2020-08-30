@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NzMessageService } from 'ng-zorro-antd';
 import * as AuthActions from '../../auth/store/auth.actions';
 import * as fromApp from '../../store/app.reducer';
-import { NzMessageService } from 'ng-zorro-antd';
+import 'clientjs';
+import { UserService } from 'src/app/services/user.service';
+import { BrowserFingerprint } from './../../interfaces/browserFingerprint.model';
+declare let ClientJS: any;
 
 @Component({
   selector: 'app-login',
@@ -21,14 +25,39 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private store: Store<fromApp.AppState>,
-              private message: NzMessageService) {}
+              private message: NzMessageService,
+              private userService: UserService) {}
 
   ngOnInit(): void {
     this.store.dispatch(new AuthActions.Logout());
+    let browserFingerprint = this.getBrowserFingerprint();
+    this.userService.checkAttempts(browserFingerprint).subscribe(canLogin => {
+      if(!canLogin) {
+        this.message.warning('You have 5 login failed logins');
+        this.router.navigate(['/auth/limit-redirect']);
+      }
+    });
+
     this.validateForm = this.fb.group({
       username: [null, [Validators.required, Validators.email, Validators.minLength(8)]],
       password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]]
     });
+  }
+
+  getBrowserFingerprint(): BrowserFingerprint {
+    var client = new ClientJS();    // browser fingerprint
+    return  {
+      cpu: client.getCPU(),
+      os: client.getOS(),
+      osVersion: client.getOSVersion(),
+      browserName: client.getBrowser(),
+      browserVersion: client.getBrowserVersion(),
+      fingerprint: client.getFingerprint(),
+      language: client.getLanguage(),
+      plugins: client.getPlugins(),
+      screenPrint: client.getScreenPrint(),
+      timeZone: client.getTimeZone()
+    }
   }
 
   submitForm(): void {
@@ -40,7 +69,8 @@ export class LoginComponent implements OnInit {
     this.store.dispatch(new AuthActions.LoginStart({
       username: this.validateForm.value.username,
       password: this.validateForm.value.password,
-      isSQLI: this.isSQLIAttackEnabled
+      isSQLI: this.isSQLIAttackEnabled,
+      browserFingerprint: this.getBrowserFingerprint()
     }));
   }
 
