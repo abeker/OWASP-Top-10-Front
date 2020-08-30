@@ -122,6 +122,21 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Name of your first pet</nz-form-label>
+      <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="securityQuestionErrorTpl">
+        <input nz-input id="securityQuestion" formControlName="securityQuestion" placeholder="Security Question" #address/>
+        <ng-template #securityQuestionErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 3 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please fill security question!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-control [nzOffset]="7" [nzSpan]="12">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
         <button nz-button (click)="resetForm($event)">Reset</button>

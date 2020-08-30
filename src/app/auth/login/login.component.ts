@@ -21,6 +21,11 @@ export class LoginComponent implements OnInit {
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
   isSQLIAttackEnabled = false;
   loadingSQLI = false;
+  isVisible = false;
+  isConfirmLoading = false;
+  securityQuestionVisible = false;
+  securityQuestion?: string;
+  username: string;
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -103,6 +108,32 @@ export class LoginComponent implements OnInit {
         password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]]
       });
     }
+  }
+
+  forgotPassword(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+      this.userService.changePassword({
+        username: this.username,
+        securityQuestion : this.securityQuestion
+      }).subscribe(isChanged => {
+        if(isChanged) {
+          this.message.success('New Password sent to your mail account (' + this.username + ')');
+        } else {
+          this.message.warning('Input data is not valid.');
+        }
+      })
+    }, 500);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
   }
 
 }

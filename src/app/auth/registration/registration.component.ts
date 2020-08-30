@@ -22,8 +22,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private userService: UserService,
-              private store: Store<fromApp.AppState>,
-              private message: NzMessageService) {
+              private store: Store<fromApp.AppState>) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
       password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
@@ -32,6 +31,7 @@ export class RegistrationComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]],
       ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
+      securityQuestion: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]]
     });
   }
 
@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; }): void {
+  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; securityQuestion: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -51,7 +51,8 @@ export class RegistrationComponent implements OnInit {
       firstName: value.firstName,
       lastName: value.lastName,
       address: value.address,
-      ssn: value.ssn
+      ssn: value.ssn,
+      securityQuestion: value.securityQuestion
     }));
 
     this.resetForm(new MouseEvent('click'));
