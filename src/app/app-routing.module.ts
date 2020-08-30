@@ -10,6 +10,7 @@ import { AgentRequestsComponent } from './pages/agent-requests/agent-requests.co
 import { CartComponent } from './pages/cart/cart.component';
 import { CreateAdComponent } from './pages/create-ad/create-ad.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LimitRedirectComponent } from './pages/limit-redirect/limit-redirect.component';
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth/login' },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/registration', component: RegistrationComponent },
+  { path: 'auth/limit-redirect', component: LimitRedirectComponent },
   {
     path: 'dashboard', component: DashboardComponent, children: [
       { path: 'agent-registration', component: AgentRegistrationComponent },

@@ -32,6 +32,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
 import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
 import * as fromApp from './store/app.reducer';
+import { LimitRedirectComponent } from './pages/limit-redirect/limit-redirect.component';
 
 registerLocaleData(en);
 
@@ -53,7 +54,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     CreateAdComponent,
     AgentRequestsComponent,
     UserRequestsComponent,
-    AgentAdsComponent
+    AgentAdsComponent,
+    LimitRedirectComponent
   ],
   imports: [
     BrowserModule,

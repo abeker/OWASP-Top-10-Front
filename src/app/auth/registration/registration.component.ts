@@ -16,21 +16,22 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class RegistrationComponent implements OnInit {
   validateForm: FormGroup;
   isUsernameExist: boolean = false;
+  isPasswordCorrect: boolean = false;
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private userService: UserService,
-              private store: Store<fromApp.AppState>,
-              private message: NzMessageService) {
+              private store: Store<fromApp.AppState>) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
-      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
       confirm: ['', [Validators.required, this.confirmValidator, Validators.pattern(this.htmlTagRegExp)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]],
       ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
+      securityQuestion: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]]
     });
   }
 
@@ -38,7 +39,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; }): void {
+  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; securityQuestion: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -50,7 +51,8 @@ export class RegistrationComponent implements OnInit {
       firstName: value.firstName,
       lastName: value.lastName,
       address: value.address,
-      ssn: value.ssn
+      ssn: value.ssn,
+      securityQuestion: value.securityQuestion
     }));
 
     this.resetForm(new MouseEvent('click'));
@@ -86,6 +88,28 @@ export class RegistrationComponent implements OnInit {
         observer.complete();
       }, 1000);
     });
+
+  passwordAsyncValidator = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      this.userService.checkPassword(control.value).subscribe(isCorrect => {
+        if(isCorrect) {
+          this.isPasswordCorrect = true;
+        } else {
+          this.isPasswordCorrect = false;
+        }
+      }, error => {
+        console.log('error');
+      });
+
+    setTimeout(() => {
+      if (this.isPasswordCorrect) {
+        observer.next({ error: true, duplicated: true });
+      } else {
+        observer.next(null);
+      }
+      observer.complete();
+    }, 1500);
+  });
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {

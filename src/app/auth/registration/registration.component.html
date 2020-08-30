@@ -54,8 +54,19 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please input correct password!">
-        <input nz-input type="password" formControlName="password" placeholder="Password" (ngModelChange)="validateConfirmPassword()" />
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+        <input nz-input type="password" formControlName="password" placeholder="Password"/>
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Password must satisfy pattern.
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Password!
+          </ng-container>
+          <ng-container *ngIf="!isPasswordCorrect && !control.hasError('required') && !control.hasError('pattern')">
+            Password is too weak!
+          </ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
 
@@ -105,6 +116,21 @@
           </ng-container>
           <ng-container *ngIf="control.hasError('pattern')">
             Only digits are allowed!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Name of your first pet</nz-form-label>
+      <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="securityQuestionErrorTpl">
+        <input nz-input id="securityQuestion" formControlName="securityQuestion" placeholder="Security Question" #address/>
+        <ng-template #securityQuestionErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('minlength')">
+            Must contain at least 3 characters!
+          </ng-container>
+          <ng-container *ngIf="control.hasError('required')">
+            Please fill security question!
           </ng-container>
         </ng-template>
       </nz-form-control>
