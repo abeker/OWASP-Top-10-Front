@@ -114,6 +114,17 @@ export class DashboardComponent implements OnInit {
     this.router.navigateByUrl('dashboard/agent-ads');
   }
 
+  showUserInfo(): void {
+    let username = this.user.username;
+    if(this.isAdmin) {
+      this.router.navigate(['/dashboard/admin-info'], {queryParams: { username: username }});
+    } else if(this.isAgent) {
+      this.router.navigate(['/dashboard/agent-info'], {queryParams: { username: username }})
+    } else {
+      this.router.navigate(['/dashboard/user-info'], {queryParams: { username: username }})
+    }
+  }
+
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
   }

@@ -34,6 +34,10 @@ export class UserService {
     return this.http.put(this.baseUrl + 'auth/users/change-password', requestBody);
   }
 
+  sendInfoRequest(username): Observable<any> {
+    return this.http.get(this.baseUrl + 'auth/users/'+ username +'/info');
+  }
+
   getToken(): void {
     this.subscriptionUser = this.store.select('auth').subscribe(userData => {
       this.activeUserToken = userData.user.token;

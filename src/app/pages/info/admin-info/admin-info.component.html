@@ -1,0 +1,19 @@
+<h2>Admin Info</h2>
+<table *ngIf="userInfo != null || userInfo != undefined">
+  <tr>
+    <th>Username</th>
+    <td>{{ userInfo.username }}</td>
+  </tr>
+  <tr>
+    <th>First Name</th>
+    <td>{{ userInfo.firstName }}</td>
+  </tr>
+  <tr>
+    <th>Last Name</th>
+    <td>{{ userInfo.lastName }}</td>
+  </tr>
+  <tr>
+    <th>User Role</th>
+    <td>{{ userInfo.userRole }}</td>
+  </tr>
+</table>
