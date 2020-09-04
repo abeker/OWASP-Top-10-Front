@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild, SecurityContext } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
@@ -9,8 +10,7 @@ import * as fromApp from '../../store/app.reducer';
 import { AdResponse } from './../../interfaces/adResponse.model';
 import { AdService } from './../../services/ad.service';
 import { CartService } from './../../services/cart.service';
-import * as AdActions from '../../ad-store/ad.actions';
-import { DomSanitizer } from '@angular/platform-browser';
+import DOMPurify from 'isomorphic-dompurify';
 
 @Component({
   selector: 'app-ad-cards',
@@ -116,13 +116,13 @@ export class AdCardsComponent implements OnInit {
     if(searchingResult.length === 0) {
       let warningAlert = document.getElementById("nz_alert_searchResult");
       if(this.isSanitizingChecked) {
-        console.log('cekirano');
-        this.searchWarningDescription = searchValue;
-      } else{
-        console.log('necekirano');
+        var cleanSearchValue = DOMPurify.sanitize(searchValue);
+        this.searchWarningDescription = cleanSearchValue;
+      } else {
         this.searchWarningDescription = this.sanitizer.bypassSecurityTrustHtml('<p>'+searchValue+'</p>');
       }
       warningAlert.style.display = "block";
+
       setTimeout(() => {
         warningAlert.style.display = "none";
         this.reloadSearch();

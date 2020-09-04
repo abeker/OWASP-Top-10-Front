@@ -25,6 +25,7 @@
     "angular-split": "^4.0.0",
     "clientjs": "^0.1.11",
     "fingerprintjs2": "^2.1.2",
+    "isomorphic-dompurify": "^0.6.0",
     "ng-zorro-antd": "^9.3.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
