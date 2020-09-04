@@ -26,6 +26,15 @@ export class CommentService {
     });
   }
 
+  getCommentsOfAd(adId: string): Observable<any> {
+    this.getToken();
+    return this.http.get(this.baseUrl + `ads/comments/`+ adId, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
+  }
+
   getToken(): void {
     this.subscriptionUser = this.store.select('auth').subscribe(userData => {
       this.activeUserToken = userData.user.token;

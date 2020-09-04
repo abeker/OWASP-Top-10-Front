@@ -3,6 +3,7 @@
     <input #searchField
       type="text"
       style="height: 40px;"
+      id="inputSearchField"
       nz-input
       placeholder="search by brand & model" />
   </nz-input-group>
@@ -19,6 +20,20 @@
       <i nz-icon nzType="reload" nzTheme="outline"></i>
     </button>
   </ng-template>
+
+  <div style="float: right;">
+  Angular sanitizing <nz-switch [(ngModel)]="isSanitizingChecked" [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+    <ng-template #checkedTemplate><i nz-icon nzType="check"></i></ng-template>
+    <ng-template #unCheckedTemplate><i nz-icon nzType="close"></i></ng-template>
+  </div>
+
+  <div class="alert"
+    id="nz_alert_searchResult"
+    style="width: 60%; margin-top: -40px; display: none;">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>No search result for: </strong>
+    <div [innerHTML]="searchWarningDescription"></div>
+  </div>
 
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="8" class="card_column_adResponse" *ngFor="let ad of adList">

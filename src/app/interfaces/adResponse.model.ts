@@ -1,3 +1,5 @@
+import { SimpleUserResponse } from './request.model';
+
 export interface AdResponse {
   id: string;
   car: CarResponse;
@@ -48,6 +50,7 @@ export interface PhotoResponse {
 export interface CommentResponse {
   id: string;
   text: string;
-  simpleUserId: string;
+  simpleUser: SimpleUserResponse;
+  postTime: Date;
   commentStatus: string;
 }
