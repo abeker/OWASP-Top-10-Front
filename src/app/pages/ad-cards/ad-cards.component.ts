@@ -10,7 +10,7 @@ import * as fromApp from '../../store/app.reducer';
 import { AdResponse } from './../../interfaces/adResponse.model';
 import { AdService } from './../../services/ad.service';
 import { CartService } from './../../services/cart.service';
-import DOMPurify from 'isomorphic-dompurify';
+import * as DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-ad-cards',

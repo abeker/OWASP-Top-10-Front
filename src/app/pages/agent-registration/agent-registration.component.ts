@@ -91,10 +91,14 @@ export class AgentRegistrationComponent implements OnInit {
 
   passwordAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
-      this.userService.checkPassword(control.value).subscribe(() => {
-        this.isPasswordCorrect = true;
-      }, () => {
-        this.isPasswordCorrect = false;
+      this.userService.checkPassword(control.value).subscribe(isCorrect => {
+        if(isCorrect) {
+          this.isPasswordCorrect = true;
+        } else {
+          this.isPasswordCorrect = false;
+        }
+      }, error => {
+        console.log('error');
       });
 
     setTimeout(() => {

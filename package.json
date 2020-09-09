@@ -24,6 +24,7 @@
     "@ngrx/store": "^10.0.0",
     "angular-split": "^4.0.0",
     "clientjs": "^0.1.11",
+    "dompurify": "^2.0.15",
     "fingerprintjs2": "^2.1.2",
     "isomorphic-dompurify": "^0.6.0",
     "ng-zorro-antd": "^9.3.0",

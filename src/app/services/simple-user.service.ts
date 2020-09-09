@@ -12,7 +12,7 @@ export class SimpleUserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRequestsByStatus(userStatus): Observable<any> {
+  getAllRegistrationRequestsByStatus(userStatus): Observable<any> {
     return this.http.get(this.baseUrl + `auth/simple-users/` + userStatus + "/status");
   }
 }

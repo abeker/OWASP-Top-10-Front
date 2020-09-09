@@ -35,7 +35,12 @@ export class UserService {
   }
 
   sendInfoRequest(username): Observable<any> {
-    return this.http.get(this.baseUrl + 'auth/users/'+ username +'/info');
+    this.getToken();
+    return this.http.get(this.baseUrl + 'auth/users/'+ username +'/info', {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   getToken(): void {

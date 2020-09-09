@@ -23,7 +23,7 @@ export class RegistrationRequestsComponent implements OnInit {
               private message: NzMessageService) { }
 
   ngOnInit(): void {
-    this.simpleUserService.getAllRequestsByStatus('PENDING').subscribe(simpleUsersList => {
+    this.simpleUserService.getAllRegistrationRequestsByStatus('PENDING').subscribe(simpleUsersList => {
       this.listOfData = simpleUsersList;
       this.listOfDisplayData = [...this.listOfData];
     });
