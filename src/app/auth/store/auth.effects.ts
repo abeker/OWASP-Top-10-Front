@@ -92,7 +92,8 @@ export class AuthEffects {
           rePassword: authData.payload.password,
           ssn: authData.payload.ssn,
           address: authData.payload.address,
-          securityQuestion: authData.payload.securityQuestion
+          securityQuestion: authData.payload.securityQuestion,
+          securityAnswer: authData.payload.securityAnswer
         })
       .pipe(
           map(() => {

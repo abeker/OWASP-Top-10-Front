@@ -67,7 +67,8 @@ export class SignupStart implements Action {
     lastName: string,
     address: string,
     ssn: string,
-    securityQuestion: string
+    securityQuestion: string,
+    securityAnswer: string
   }) {}
 }
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, ValidationErrors, FormBuilder, Validators } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from './../../services/user.service';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducer';
+import { Observable, Observer } from 'rxjs';
 import * as AuthActions from '../../auth/store/auth.actions';
-import { NzMessageService } from 'ng-zorro-antd';
+import * as fromApp from '../../store/app.reducer';
+import { UserService } from './../../services/user.service';
+import { NzMessageService, NzCascaderOption } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-registration',
@@ -18,31 +18,37 @@ export class RegistrationComponent implements OnInit {
   isUsernameExist: boolean = false;
   isPasswordCorrect: boolean = false;
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
+  selectedQuestion: any = 'Name of your first pet?';
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private userService: UserService,
+              private message: NzMessageService,
               private store: Store<fromApp.AppState>) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
-      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
       confirm: ['', [Validators.required, this.confirmValidator, Validators.pattern(this.htmlTagRegExp)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       address: ['', [Validators.required, Validators.minLength(4), Validators.pattern(this.htmlTagRegExp)]],
       ssn: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(13), Validators.maxLength(13), Validators.pattern(this.htmlTagRegExp)]],
-      securityQuestion: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]]
+      securityAnswer: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]]
     });
   }
 
   ngOnInit(): void {
   }
 
-
-  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; securityQuestion: string }): void {
+  submitForm(value: { email: string; password: string; confirm: string; firstName: string; lastName: string; address: string; ssn: string; securityAnswer: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
+    }
+
+    if(this.selectedQuestion == null) {
+      this.message.warning('Please choose security question.');
+      return;
     }
 
     this.store.dispatch(new AuthActions.SignupStart({
@@ -52,7 +58,8 @@ export class RegistrationComponent implements OnInit {
       lastName: value.lastName,
       address: value.address,
       ssn: value.ssn,
-      securityQuestion: value.securityQuestion
+      securityQuestion: this.selectedQuestion,
+      securityAnswer: value.securityAnswer
     }));
 
     this.resetForm(new MouseEvent('click'));
@@ -125,3 +132,4 @@ export class RegistrationComponent implements OnInit {
   }
 
 }
+
