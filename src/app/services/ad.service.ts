@@ -19,7 +19,12 @@ export class AdService {
               private store: Store<fromApp.AppState>) { }
 
   getAds(): Observable<any> {
-    return this.http.get(this.baseUrl + `ads/ads`);
+    this.getToken();
+    return this.http.get(this.baseUrl + `ads/ads`, {
+      headers: new HttpHeaders ({
+        'Auth-Token' : this.activeUserToken
+      })
+    });
   }
 
   postAd(body): Observable<any> {

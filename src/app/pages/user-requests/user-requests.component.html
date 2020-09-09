@@ -1,4 +1,8 @@
-<div style="background: #ececec00; padding:30px; text-align: center;">
+Angular sanitizing <nz-switch [(ngModel)]="isSanitizingChecked" [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+    <ng-template #checkedTemplate><i nz-icon nzType="check"></i></ng-template>
+    <ng-template #unCheckedTemplate><i nz-icon nzType="close"></i></ng-template>
+
+<div class="mainDivCommentList" style="background: #ececec00; padding:30px; text-align: center;">
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="7" *ngFor="let request of requestList">
       <nz-card style="background-color: rgba(255, 255, 255, 0.5);">
@@ -24,17 +28,21 @@
           (nzOnConfirm)="confirmRating(request.ad)" (nzOnCancel)="cancelRating()">
           Rate
         </a>
+        <a nz-button nzType="link"
+          (click)="openCommentList(request.ad)">
+          Comment List
+        </a>
         <div *ngIf="request.requestStatus==='PAID'">
             <button
               class="commentButton"
-              style="margin-top: 12px;"
+              style="margin-left: -10%;"
               nz-button nzType="primary" nzShape="round" nzGhost
-              (click)="openComment()">
+              (click)="openComment(request.id)">
               <i nz-icon nzType="down" nzTheme="outline"></i>
               Comment
             </button>
             <br>
-            <div style="margin-top: 15px; margin-left: -20px;" id="commentArea">
+            <div style="margin-top: 15px; margin-left: -20px; display: none;" [id]="request.id">
               <nz-input-group [nzSuffix]="textAreaClearTpl" class="ant-input-affix-wrapper-textarea-with-clear-btn">
                 <textarea
                   style="max-height: 100px;"
@@ -56,6 +64,7 @@
             </div>
         </div>
 
+        <br>
         <button *ngIf="request.requestStatus === 'RESERVED'"
           nz-button
           nzType="primary"
@@ -74,3 +83,18 @@
     </div>
   </div>
 </div>
+
+<nz-drawer [nzClosable]="false"
+        [nzVisible]="isVisibleCommentList"
+        nzPlacement="right"
+        nzTitle="Comment List"
+        (nzOnClose)="closeCommentList()"
+        [nzWidth]="350"
+        class="listCommentsDrawer"
+        *ngFor="let comment of commentList">
+  <nz-comment [nzAuthor]="getCommentAuthor(comment.simpleUser)" [nzDatetime]="getCommentTime(comment.postTime)">
+    <nz-avatar [ngStyle]="{ 'background-color': colorAvatar }" nz-comment-avatar [nzText]="getCommentInitial(comment.simpleUser)" style="vertical-align: middle;"></nz-avatar>
+    <nz-comment-content [innerHtml]=getCommentContent(comment)>
+    </nz-comment-content>
+  </nz-comment>
+</nz-drawer>

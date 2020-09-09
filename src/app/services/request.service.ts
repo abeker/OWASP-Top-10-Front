@@ -55,7 +55,7 @@ export class RequestService {
 
   dropRequest(requestId: string): Observable<any> {
     this.getToken();
-    return this.http.put(this.baseUrl + `ads/requests/`+null+`/drop`, null, {
+    return this.http.put(this.baseUrl + `ads/requests/`+null+`/drop`, requestId, {
       headers: new HttpHeaders ({
         'Auth-Token' : this.activeUserToken
       })

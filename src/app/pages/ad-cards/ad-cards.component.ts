@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
 import { Ad } from 'src/app/shared/ad.model';
 import { Car } from 'src/app/shared/car.model';
 import * as CartActions from '../../cart-store/cart.actions';
@@ -9,7 +10,7 @@ import * as fromApp from '../../store/app.reducer';
 import { AdResponse } from './../../interfaces/adResponse.model';
 import { AdService } from './../../services/ad.service';
 import { CartService } from './../../services/cart.service';
-import * as AdActions from '../../ad-store/ad.actions';
+import * as DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-ad-cards',
@@ -25,6 +26,8 @@ export class AdCardsComponent implements OnInit {
   retrievedImages: string[] = [];
   base64Data: any;
   loading: boolean = false;
+  searchWarningDescription;
+  isSanitizingChecked: boolean = true;
 
   adInfo: AdResponse;
   visibleDrawer = false;
@@ -35,7 +38,9 @@ export class AdCardsComponent implements OnInit {
               private message: NzMessageService,
               private store: Store<fromApp.AppState>,
               private cartService: CartService,
-              private router: Router) { }
+              private router: Router,
+              private notification: NzNotificationService,
+              private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.adService.getAds().subscribe(listOfAds => {
@@ -108,10 +113,27 @@ export class AdCardsComponent implements OnInit {
       }
     });
 
+    if(searchingResult.length === 0) {
+      let warningAlert = document.getElementById("nz_alert_searchResult");
+      if(this.isSanitizingChecked) {
+        var cleanSearchValue = DOMPurify.sanitize(searchValue);
+        this.searchWarningDescription = cleanSearchValue;
+      } else {
+        this.searchWarningDescription = this.sanitizer.bypassSecurityTrustHtml('<p>'+searchValue+'</p>');
+      }
+      warningAlert.style.display = "block";
+
+      setTimeout(() => {
+        warningAlert.style.display = "none";
+        this.reloadSearch();
+      }, 3000);
+    }
+
     this.adList = [...searchingResult];
   }
 
   reloadSearch(): void {
+    this.searchField.nativeElement.value = '';
     this.adList = [...this.adListOriginal];
   }
 

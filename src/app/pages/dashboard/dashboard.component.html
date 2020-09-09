@@ -36,6 +36,24 @@
             <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
             Shopping Cart
           </li>
+          <li *ngIf="isAdmin"
+            (click)="showUserInfo()"
+            nz-menu-item>
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            Admin Info
+          </li>
+          <li *ngIf="isAgent"
+            (click)="showUserInfo()"
+            nz-menu-item>
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            Agent Info
+          </li>
+          <li *ngIf="isSimpleUser"
+            (click)="showUserInfo()"
+            nz-menu-item>
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            User Info
+          </li>
           <li *ngIf="isSimpleUser" nz-submenu nzTitle="Requests" nzIcon="shopping">
             <ul>
               <li nz-menu-item (click)="getSimpleUserRequests('PENDING')">Pending</li>

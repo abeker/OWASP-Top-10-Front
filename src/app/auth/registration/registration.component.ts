@@ -108,7 +108,7 @@ export class RegistrationComponent implements OnInit {
         observer.next(null);
       }
       observer.complete();
-    }, 1500);
+    }, 1000);
   });
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
