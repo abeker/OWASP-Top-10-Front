@@ -20,6 +20,9 @@ export class RegistrationComponent implements OnInit {
   htmlTagRegExp = '^(?!<.+?>).*$';    // stitim se od <script> tagova
   selectedQuestion: any = 'Name of your first pet?';
 
+  passwordPercentage: number = 0;
+  passwordConfirmPercentage: number = 0;
+
   constructor(private fb: FormBuilder,
               private router: Router,
               private userService: UserService,
@@ -27,7 +30,7 @@ export class RegistrationComponent implements OnInit {
               private store: Store<fromApp.AppState>) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required, Validators.minLength(8), Validators.pattern(this.htmlTagRegExp)], [this.userNameAsyncValidator]],
-      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&.]).{9,}'), Validators.pattern(this.htmlTagRegExp)], [this.passwordAsyncValidator]],
       confirm: ['', [Validators.required, this.confirmValidator, Validators.pattern(this.htmlTagRegExp)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.htmlTagRegExp)]],
@@ -105,7 +108,6 @@ export class RegistrationComponent implements OnInit {
           this.isPasswordCorrect = false;
         }
       }, error => {
-        console.log('error');
       });
 
     setTimeout(() => {
@@ -131,5 +133,55 @@ export class RegistrationComponent implements OnInit {
     this.router.navigateByUrl('auth/login');
   }
 
+  onPasswordChange(passwordInput): void {
+    this.checkPassword(passwordInput, false);
+  }
+
+  onPasswordConfirmChange(passwordInput): void {
+    this.checkPassword(passwordInput, true);
+  }
+
+  checkPassword(password, isConfirm: boolean): void {
+    let coefficientAccuracy = 0;
+    if(hasLowerCase(password)) {
+      coefficientAccuracy += 1;
+    } if(hasUpperCase(password)) {
+      coefficientAccuracy += 1;
+    } if(hasNumber(password)) {
+      coefficientAccuracy += 1;
+    } if(hasSpecialCharacter(password)) {
+      coefficientAccuracy += 1;
+    } if(hasMinLength(password)) {
+      coefficientAccuracy += 1;
+    } if(password === this.validateForm.value.password && isConfirm) {
+      coefficientAccuracy += 1;
+    }
+
+    if(!isConfirm) {
+      this.passwordPercentage = coefficientAccuracy * 20;
+    } else {
+      this.passwordConfirmPercentage = coefficientAccuracy * 17;
+    }
+  }
+
 }
 
+function hasLowerCase(str) {
+  return (/[a-z]/.test(str));
+}
+
+function hasUpperCase(str) {
+  return (/[A-Z]/.test(str));
+}
+
+function hasNumber(str) {
+  return (/[0-9]/.test(str));
+}
+
+function hasSpecialCharacter(str) {
+  return (/[!@#$%^&.]/.test(str));
+}
+
+function hasMinLength(str: string) {
+  return (str.length >= 9);
+}

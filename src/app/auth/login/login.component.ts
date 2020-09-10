@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     this.validateForm = this.fb.group({
       username: [null, [Validators.required, Validators.email, Validators.minLength(8)]],
-      password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{9,}'), Validators.pattern(this.htmlTagRegExp)]]
+      password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&.]).{9,}'), Validators.pattern(this.htmlTagRegExp)]]
     });
   }
 
@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
       this.message.info('SQL Injection Attack is disabled.');
       this.validateForm = this.fb.group({
         username: [null, [Validators.required, Validators.email, Validators.minLength(8)]],
-        password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{9,}'), Validators.pattern(this.htmlTagRegExp)]]
+        password: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&.]).{9,}'), Validators.pattern(this.htmlTagRegExp)]]
       });
     }
   }
