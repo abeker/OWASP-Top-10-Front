@@ -22,6 +22,10 @@ export class UserService {
     return this.http.get(this.baseUrl + `auth/users/` + email + "/mail");
   }
 
+  getUserQuestion(email: string): Observable<any> {
+    return this.http.get(this.baseUrl + `auth/users/` + email + "/security-question");
+  }
+
   checkPassword(password: string): Observable<any> {
     return this.http.get(this.baseUrl + 'auth/users/check-password/' + password);
   }

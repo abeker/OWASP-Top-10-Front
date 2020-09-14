@@ -61,6 +61,7 @@ export class AuthEffects {
           username: authData.payload.username,
           password: authData.payload.password,
           isSQLI: authData.payload.isSQLI,
+          isDictionaryAttack: false,
           browserFingerprint: authData.payload.browserFingerprint
         })
       .pipe(
@@ -92,7 +93,8 @@ export class AuthEffects {
           rePassword: authData.payload.password,
           ssn: authData.payload.ssn,
           address: authData.payload.address,
-          securityQuestion: authData.payload.securityQuestion
+          securityQuestion: authData.payload.securityQuestion,
+          securityAnswer: authData.payload.securityAnswer
         })
       .pipe(
           map(() => {

@@ -54,34 +54,33 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
-        <input nz-input type="password" formControlName="password" placeholder="Password"/>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="passwordErrorTpl">
+        <input nz-input (ngModelChange)="onPasswordChange($event)"
+          type="password"
+          formControlName="password"
+          placeholder="Password"/>
         <ng-template #passwordErrorTpl let-control>
-          <ng-container *ngIf="control.hasError('pattern')">
-            Password must satisfy pattern.
-          </ng-container>
-          <ng-container *ngIf="control.hasError('required')">
-            Please input your Password!
-          </ng-container>
-          <ng-container *ngIf="!isPasswordCorrect && !control.hasError('required') && !control.hasError('pattern')">
+          <!-- <ng-container *ngIf="!isPasswordCorrect && !control.hasError('required') && !control.hasError('pattern')">
             Password is too weak!
-          </ng-container>
+          </ng-container> -->
         </ng-template>
+        <nz-progress [(nzPercent)]="passwordPercentage"></nz-progress>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
-        <input nz-input type="password" formControlName="confirm" placeholder="Confirm your password" />
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="passwordErrorTpl">
+        <input nz-input (ngModelChange)="onPasswordConfirmChange($event)"
+          type="password"
+          formControlName="confirm"
+          placeholder="Confirm your password" />
         <ng-template #passwordErrorTpl let-control>
-          <ng-container *ngIf="control.hasError('required')">
-            Please confirm your password!
-          </ng-container>
-          <ng-container *ngIf="control.hasError('confirm')">
+          <ng-container *ngIf="!control.hasError('required') && !control.hasError('pattern')">
             Password is inconsistent!
           </ng-container>
         </ng-template>
+        <nz-progress [(nzPercent)]="passwordConfirmPercentage"></nz-progress>
       </nz-form-control>
     </nz-form-item>
 
@@ -122,15 +121,25 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Name of your first school</nz-form-label>
+      <nz-form-label [nzSpan]="5" nzRequired>Security question</nz-form-label>
+      <nz-select ngModel="lucy" nzShowSearch nzAllowClear
+        style="width: 200px; margin-right: 2px;"
+        nzPlaceHolder="Choose question"
+        [(ngModel)]="selectedQuestion">
+        <nz-option nzValue="Name of your first pet?" nzLabel="Name of your first pet?"></nz-option>
+        <nz-option nzValue="Your elder sibling name?" nzLabel="Your elder sibling name?"></nz-option>
+        <nz-option nzValue="Name of your first school?" nzLabel="Name of your first school?"></nz-option>
+        <nz-option nzValue="Your first car name?" nzLabel="Your first car name?"></nz-option>
+        <nz-option nzValue="Name of your first friend?" nzLabel="Name of your first friend?"></nz-option>
+      </nz-select>
       <nz-form-control nzHasFeedback [nzSm]="12" [nzXs]="24" [nzErrorTip]="securityQuestionErrorTpl">
-        <input nz-input id="securityQuestion" formControlName="securityQuestion" placeholder="Security Question" #address/>
+        <input nz-input id="securityAnswer" formControlName="securityAnswer" placeholder="Type answer..." #address/>
         <ng-template #securityQuestionErrorTpl let-control>
           <ng-container *ngIf="control.hasError('minlength')">
             Must contain at least 3 characters!
           </ng-container>
           <ng-container *ngIf="control.hasError('required')">
-            Please fill security question!
+            Please fill security answer!
           </ng-container>
         </ng-template>
       </nz-form-control>
