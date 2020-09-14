@@ -61,6 +61,7 @@ export class AuthEffects {
           username: authData.payload.username,
           password: authData.payload.password,
           isSQLI: authData.payload.isSQLI,
+          isDictionaryAttack: false,
           browserFingerprint: authData.payload.browserFingerprint
         })
       .pipe(
