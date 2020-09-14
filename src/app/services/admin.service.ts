@@ -1,9 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -14,30 +12,13 @@ export class AdminService {
   subscriptionUser: Subscription;
   activeUserToken: string;
 
-  constructor(private http: HttpClient,
-              private store: Store<fromApp.AppState>) { }
+  constructor(private http: HttpClient) { }
 
   approveRegistrationRequest(id): Observable<any> {
-    this.getToken();
-    return this.http.put(this.baseUrl + `auth/admins/approve`, id, {
-      headers: new HttpHeaders ({
-        'Auth-Token' : this.activeUserToken
-      })
-    });
+    return this.http.put(this.baseUrl + `auth/admins/approve`, id);
   }
 
   danyRegistrationRequest(id): Observable<any> {
-    this.getToken();
-    return this.http.put(this.baseUrl + `auth/admins/deny`, id, {
-      headers: new HttpHeaders ({
-        'Auth-Token' : this.activeUserToken
-      })
-    });
-  }
-
-  getToken(): void {
-    this.subscriptionUser = this.store.select('auth').subscribe(userData => {
-      this.activeUserToken = userData.user.token;
-    });
+    return this.http.put(this.baseUrl + `auth/admins/deny`, id);
   }
 }
