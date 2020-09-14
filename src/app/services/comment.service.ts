@@ -1,9 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -14,30 +12,13 @@ export class CommentService {
   subscriptionUser: Subscription;
   activeUserToken: string;
 
-  constructor(private http: HttpClient,
-              private store: Store<fromApp.AppState>) { }
+  constructor(private http: HttpClient) { }
 
   sendComment(adId: string, commentText: string): Observable<any> {
-    this.getToken();
-    return this.http.post(this.baseUrl + `ads/comments/ad/`+ adId, commentText, {
-      headers: new HttpHeaders ({
-        'Auth-Token' : this.activeUserToken
-      })
-    });
+    return this.http.post(this.baseUrl + `ads/comments/ad/`+ adId, commentText);
   }
 
   getCommentsOfAd(adId: string): Observable<any> {
-    this.getToken();
-    return this.http.get(this.baseUrl + `ads/comments/`+ adId, {
-      headers: new HttpHeaders ({
-        'Auth-Token' : this.activeUserToken
-      })
-    });
-  }
-
-  getToken(): void {
-    this.subscriptionUser = this.store.select('auth').subscribe(userData => {
-      this.activeUserToken = userData.user.token;
-    });
+    return this.http.get(this.baseUrl + `ads/comments/`+ adId);
   }
 }

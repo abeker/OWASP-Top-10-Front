@@ -1,5 +1,5 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { environment } from './../environments/environment';
 import { AdEffects } from './ad-store/ad.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { AuthEffects } from './auth/store/auth.effects';
@@ -29,13 +30,13 @@ import { AgentRequestsComponent } from './pages/agent-requests/agent-requests.co
 import { CartComponent } from './pages/cart/cart.component';
 import { CreateAdComponent } from './pages/create-ad/create-ad.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
-import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
-import * as fromApp from './store/app.reducer';
-import { LimitRedirectComponent } from './pages/limit-redirect/limit-redirect.component';
 import { AdminInfoComponent } from './pages/info/admin-info/admin-info.component';
 import { AgentInfoComponent } from './pages/info/agent-info/agent-info.component';
 import { UserInfoComponent } from './pages/info/user-info/user-info.component';
+import { LimitRedirectComponent } from './pages/limit-redirect/limit-redirect.component';
+import { RegistrationRequestsComponent } from './pages/registration-requests/registration-requests.component';
+import { UserRequestsComponent } from './pages/user-requests/user-requests.component';
+import * as fromApp from './store/app.reducer';
 
 registerLocaleData(en);
 
@@ -80,7 +81,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     EffectsModule.forRoot([ AuthEffects, CartEffects, AdEffects ])
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

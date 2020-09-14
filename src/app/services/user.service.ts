@@ -1,10 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Observable, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { BrowserFingerprint } from './../interfaces/browserFingerprint.model';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +13,7 @@ export class UserService {
   subscriptionUser: Subscription;
   activeUserToken: string;
 
-  constructor(private http: HttpClient,
-              private store: Store<fromApp.AppState>) { }
+  constructor(private http: HttpClient) { }
 
   getUser(email: string): Observable<any> {
     return this.http.get(this.baseUrl + `auth/users/` + email + "/mail");
@@ -39,17 +36,7 @@ export class UserService {
   }
 
   sendInfoRequest(username): Observable<any> {
-    this.getToken();
-    return this.http.get(this.baseUrl + 'auth/users/'+ username +'/info', {
-      headers: new HttpHeaders ({
-        'Auth-Token' : this.activeUserToken
-      })
-    });
+    return this.http.get(this.baseUrl + 'auth/users/'+ username +'/info');
   }
 
-  getToken(): void {
-    this.subscriptionUser = this.store.select('auth').subscribe(userData => {
-      this.activeUserToken = userData.user.token;
-    });
-  }
 }
