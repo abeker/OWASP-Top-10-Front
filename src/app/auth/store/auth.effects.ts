@@ -144,7 +144,6 @@ export class AuthEffects {
   authRedirectSignup = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_SUCCESS),
     tap(() => {
-      console.log('usao u signup redirect');
       this.router.navigate(['/auth/login']);
     })
   );

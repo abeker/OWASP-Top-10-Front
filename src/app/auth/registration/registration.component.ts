@@ -167,21 +167,31 @@ export class RegistrationComponent implements OnInit {
 }
 
 function hasLowerCase(str) {
-  return (/[a-z]/.test(str));
+  if(str != null) {
+    return (/[a-z]/.test(str));
+  }
 }
 
 function hasUpperCase(str) {
-  return (/[A-Z]/.test(str));
+  if(str != null) {
+    return (/[A-Z]/.test(str));
+  }
 }
 
 function hasNumber(str) {
-  return (/[0-9]/.test(str));
+  if(str != null) {
+    return (/[0-9]/.test(str));
+  }
 }
 
 function hasSpecialCharacter(str) {
-  return (/[!@#$%^&.]/.test(str));
+  if(str != null) {
+    return (/[!@#$%^&.]/.test(str));
+  }
 }
 
 function hasMinLength(str: string) {
-  return (str.length >= 9);
+  if(str != null) {
+    return (str.length >= 9);
+  }
 }
