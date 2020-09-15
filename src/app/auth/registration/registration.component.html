@@ -122,7 +122,7 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="5" nzRequired>Security question</nz-form-label>
-      <nz-select ngModel="lucy" nzShowSearch nzAllowClear
+      <nz-select ngModel="lucy" [ngModelOptions]="{standalone: true}" nzShowSearch nzAllowClear
         style="width: 200px; margin-right: 2px;"
         nzPlaceHolder="Choose question"
         [(ngModel)]="selectedQuestion">

@@ -47,10 +47,14 @@ export function authReducer(state: State = initiaState, action: AuthActions.Auth
           };
         case AuthActions.LOGOUT:
            return {
-              ...state,
-              user: null,
-              authError: "Success logout."
+              ...state
            };
+        case AuthActions.LOGOUT_END:
+         return {
+            ...state,
+            user: null,
+            authError: action.payload
+         };
         default:
            return state;
     }

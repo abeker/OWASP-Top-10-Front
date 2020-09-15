@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
               private userService: UserService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.store.dispatch(new AuthActions.LogoutEnd("Login page clear user data!"));
     let browserFingerprint = this.getBrowserFingerprint();
     this.userService.checkAttempts(browserFingerprint).subscribe(canLogin => {
       if(!canLogin) {
