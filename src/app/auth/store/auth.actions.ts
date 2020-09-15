@@ -8,7 +8,8 @@ export const AUTO_LOGIN = '[Auth] Auto Login';
 export const SIGNUP_START = '[Auth] Signup Start';
 export const SIGNUP_SUCCESS = '[Auth] Signup Success';
 export const SIGNUP_FAIL = '[Auth] Signup Fail';
-export const LOGOUT = '[Auth] Logout';
+export const LOGOUT = '[Auth] Logout Start';
+export const LOGOUT_END = '[Auth] Logout End';
 
 export class LoginStart implements Action {
   readonly type = LOGIN_START;
@@ -50,8 +51,14 @@ export class SignupSuccess implements Action {
   readonly type = SIGNUP_SUCCESS;
 }
 
+// logout start
 export class Logout implements Action {
   readonly type = LOGOUT;
+}
+
+export class LogoutEnd implements Action {
+  readonly type = LOGOUT_END;
+  constructor(public payload: string) {}    // error message
 }
 
 export class AutoLogin implements Action {
@@ -79,4 +86,5 @@ export type AuthActions = LoginStart
                         | SignupStart
                         | AutoLogin
                         | SignupSuccess
-                        | SignupFail;
+                        | SignupFail
+                        | LogoutEnd;

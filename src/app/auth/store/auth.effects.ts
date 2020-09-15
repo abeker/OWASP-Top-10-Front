@@ -149,9 +149,25 @@ export class AuthEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
+    switchMap(() => {
+        return this.http.get(environment.baseUrl + 'auth/users/logout')
+        .pipe(
+          map(() => {
+            return new AuthActions.LogoutEnd("Successful logout.");
+          }),
+          catchError(() => {
+            return of(new AuthActions.LogoutEnd("Fail logout."));
+          })
+        );
+      })
+  );
+
+  @Effect({ dispatch: false })
+  authLogoutEnd = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT_END),
     tap(() => {
       localStorage.clear();
       this.router.navigate(['/auth/login']);
